@@ -1,0 +1,7 @@
+# Archivos de credenciales sensibles
+quay_auth.json
+openshift_config.json
+*.env
+config.local.*
+*_auth.json
+*_credentials.*

@@ -1,0 +1,96 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"adminer","namespace":"wcdy-cert-frt"},"spec":{"ports":[{"port":8081,"protocol":"TCP","targetPort":8081}],"selector":{"app":"adminer"}}}
+    creationTimestamp: "2025-06-12T16:46:11Z"
+    name: adminer
+namespace: wcdy-inte-frt
+    resourceVersion: "1096561438"
+    uid: e6093ecf-99b7-422c-99ce-db273bcd9a4d
+  spec:
+    clusterIP: 172.30.84.230
+    clusterIPs:
+    - 172.30.84.230
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 8081
+      protocol: TCP
+      targetPort: 8081
+    selector:
+      app: adminer
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"cadete-db","namespace":"wcdy-cert-frt"},"spec":{"ports":[{"name":"mysql","port":3306,"protocol":"TCP","targetPort":3306}],"selector":{"app":"cadete3"}}}
+    creationTimestamp: "2025-06-17T08:03:21Z"
+    name: cadete-db
+namespace: wcdy-inte-frt
+    resourceVersion: "1105267258"
+    uid: 462b68a6-d2cb-4de4-9bc1-4278288bd9df
+  spec:
+    clusterIP: 172.30.72.127
+    clusterIPs:
+    - 172.30.72.127
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: mysql
+      port: 3306
+      protocol: TCP
+      targetPort: 3306
+    selector:
+      app: cadete3
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app":"cadete3"},"name":"cadete3","namespace":"wcdy-cert-frt"},"spec":{"ports":[{"port":8080,"protocol":"TCP","targetPort":8080}],"selector":{"app":"cadete3"},"type":"ClusterIP"}}
+    creationTimestamp: "2025-06-13T11:43:25Z"
+    labels:
+      app: cadetefrt
+    name: cadete3
+namespace: wcdy-inte-frt
+    resourceVersion: "1161824714"
+    uid: a6b5e514-5b6c-4578-b5ca-b92021b202df
+  spec:
+    clusterIP: 172.30.93.148
+    clusterIPs:
+    - 172.30.93.148
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: cadetefrt
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+kind: List
+metadata:
+  resourceVersion: ""
+

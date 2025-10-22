@@ -1,0 +1,47 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    haproxy.router.openshift.io/disable_cookies: "true"
+    haproxy.router.openshift.io/ip_whitelist: 10.159.14.244,10.159.14.245
+    haproxy.router.openshift.io/timeout: 80s
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"route.openshift.io/v1","kind":"Route","metadata":{"annotations":{},"name":"cadete3","namespace":"wcdy-cert-frt"},"spec":{"port":{"targetPort":8080},"tls":{"termination":"edge"},"to":{"kind":"Service","name":"cadete3"}}}
+    openshift.io/host.generated: "true"
+  creationTimestamp: "2025-06-13T11:43:31Z"
+  labels:
+    app: cadete3
+  name: cadete3
+  namespace: wcdy-cert-frt
+  resourceVersion: "1315206311"
+  uid: 57602347-994a-424a-b573-d898d609a166
+spec:
+  host: cadete.test.es.telefonica
+  port:
+    targetPort: 8080
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: cadete3
+    weight: 100
+  wildcardPolicy: None
+status:
+  ingress:
+  - conditions:
+    - lastTransitionTime: "2025-07-10T09:46:57Z"
+      status: "True"
+      type: Admitted
+    host: cadete.test.es.telefonica
+    routerCanonicalHostname: router-router-fi.frontal-intranet.ocgc4pgpre01.mgmt.test.dc.es.telefonica
+    routerName: router-fi
+    wildcardPolicy: None
+  - conditions:
+    - lastTransitionTime: "2025-07-10T09:46:57Z"
+      status: "True"
+      type: Admitted
+    host: cadete.test.es.telefonica
+    routerCanonicalHostname: router-default.apps.ocgc4pgpre01.mgmt.test.dc.es.telefonica
+    routerName: default
+    wildcardPolicy: None

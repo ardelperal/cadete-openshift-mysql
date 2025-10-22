@@ -1,0 +1,344 @@
+apiVersion: v1
+items:
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "2"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"adminer","namespace":"wcdy-cert-frt"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"adminer"}},"template":{"metadata":{"labels":{"app":"adminer"}},"spec":{"containers":[{"image":"quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/adminer:V01","imagePullPolicy":"IfNotPresent","name":"adminer","ports":[{"containerPort":8081,"protocol":"TCP"}],"resources":{"limits":{"cpu":"100m","memory":"256Mi"},"requests":{"cpu":"50m","memory":"128Mi"}}}],"imagePullSecrets":[{"name":"quay-wcdy-pullsecret"}]}}}}
+    creationTimestamp: "2025-06-12T16:46:10Z"
+    generation: 7
+    name: adminer
+    namespace: wcdy-cert-frt
+    resourceVersion: "1097569874"
+    uid: a7a5433c-5ece-4540-9603-70b379621642
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 0
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: adminer
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: adminer
+      spec:
+        containers:
+        - image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/adminer:V01
+          imagePullPolicy: IfNotPresent
+          name: adminer
+          ports:
+          - containerPort: 8081
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 50m
+              memory: 128Mi
+            requests:
+              cpu: 25m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    conditions:
+    - lastTransitionTime: "2025-06-12T16:46:10Z"
+      lastUpdateTime: "2025-06-12T16:51:33Z"
+      message: ReplicaSet "adminer-658cf8f4bc" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2025-06-13T05:39:19Z"
+      lastUpdateTime: "2025-06-13T05:39:19Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 7
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2025-06-05T10:31:59Z"
+    generation: 1
+    name: alpine-deployment
+    namespace: wcdy-cert-frt
+    resourceVersion: "1082889463"
+    uid: f8d66c3a-289d-4332-9246-cd7173b54609
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 0
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: alpine-app
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: alpine-app
+      spec:
+        containers:
+        - command:
+          - sleep
+          - "3600"
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/alpine:v01
+          imagePullPolicy: IfNotPresent
+          name: alpine-container
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    conditions:
+    - lastTransitionTime: "2025-06-05T10:31:59Z"
+      lastUpdateTime: "2025-06-05T10:31:59Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2025-06-05T10:31:59Z"
+      lastUpdateTime: "2025-06-05T10:31:59Z"
+      message: ReplicaSet "alpine-deployment-797f78b6d6" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "26"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"deployment.kubernetes.io/revision":"5"},"name":"cadete-db","namespace":"wcdy-cert-frt"},"spec":{"progressDeadlineSeconds":600,"replicas":1,"revisionHistoryLimit":10,"selector":{"matchLabels":{"app":"cadete3"}},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":"25%"},"type":"RollingUpdate"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"cadete3"}},"spec":{"containers":[{"env":[{"name":"MYSQL_PASSWORD","valueFrom":{"secretKeyRef":{"key":"MYSQL_PASSWORD","name":"mysql-secret"}}},{"name":"MYSQL_ROOT_PASSWORD","valueFrom":{"secretKeyRef":{"key":"MYSQL_ROOT_PASSWORD","name":"mysql-secret"}}},{"name":"MYSQL_USER","valueFrom":{"secretKeyRef":{"key":"MYSQL_USER","name":"mysql-secret"}}}],"image":"quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V01","imagePullPolicy":"IfNotPresent","name":"container","ports":[{"containerPort":8081,"protocol":"TCP"}],"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","volumeMounts":[{"mountPath":"/var/lib/mysql","name":"mysql-data"}]}],"dnsPolicy":"ClusterFirst","imagePullSecrets":[{"name":"quay-wcdy-pullsecret"}],"restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30,"volumes":[{"name":"mysql-data","persistentVolumeClaim":{"claimName":"mysql-pvc"}}]}}}}
+    creationTimestamp: "2025-06-05T10:37:34Z"
+    generation: 81
+    name: cadete-db
+    namespace: wcdy-cert-frt
+    resourceVersion: "1156086088"
+    uid: 0c5399ee-e0c3-40d0-8420-c76233251b8d
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: cadete3
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2025-06-10T12:56:15+02:00"
+        creationTimestamp: null
+        labels:
+          app: cadete3
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V02
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1Gi
+            requests:
+              cpu: 150m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mysql-data
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2025-06-13T11:11:57Z"
+      lastUpdateTime: "2025-07-09T12:03:54Z"
+      message: ReplicaSet "cadete-db-7d67b44f75" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2025-07-14T09:45:45Z"
+      lastUpdateTime: "2025-07-14T09:45:45Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 81
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"Deployment","name":"cadete-db"}]'
+      deployment.kubernetes.io/revision: "6"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"app.openshift.io/connects-to":"[{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"name\":\"cadete-db\"}]","deployment.kubernetes.io/revision":"81"},"creationTimestamp":"2025-06-05T10:35:34Z","generation":215,"name":"cadetefrt","namespace":"wcdy-cert-frt","resourceVersion":"1161795098","uid":"afd24d7e-9623-440f-a976-4ab91b18d9d0"},"spec":{"progressDeadlineSeconds":600,"replicas":0,"revisionHistoryLimit":10,"selector":{"matchLabels":{"app":"cadetefrt"}},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":"25%"},"type":"RollingUpdate"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"cadetefrt"}},"spec":{"containers":[{"env":[{"name":"HOST_MACHINE_MYSQL_PORT","value":"3306"},{"name":"EXT_ROOT","value":"/var/www/html/public/ext"},{"name":"MYSQL_HOST","value":"cadete-db"},{"name":"MYSQL_PASSWORD","valueFrom":{"secretKeyRef":{"key":"MYSQL_PASSWORD","name":"mysql-secret"}}},{"name":"MYSQL_ROOT_PASSWORD","valueFrom":{"secretKeyRef":{"key":"MYSQL_ROOT_PASSWORD","name":"mysql-secret"}}},{"name":"MYSQL_USER","valueFrom":{"secretKeyRef":{"key":"MYSQL_USER","name":"mysql-secret"}}}],"image":"quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/cadete:1.0.11","imagePullPolicy":"IfNotPresent","name":"container","ports":[{"containerPort":8080,"protocol":"TCP"}],"readinessProbe":{"failureThreshold":5,"httpGet":{"path":"/","port":8080,"scheme":"HTTP"},"initialDelaySeconds":20,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":60},"resources":{"limits":{"cpu":"300m","memory":"1Gi"},"requests":{"cpu":"250m","memory":"512Mi"}},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","volumeMounts":[{"mountPath":"/var/www/html/public/ext","name":"ext-volume"}]}],"dnsPolicy":"ClusterFirst","imagePullSecrets":[{"name":"quay-wcdy-pullsecret"}],"restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30,"volumes":[{"name":"ext-volume","persistentVolumeClaim":{"claimName":"web-pvc"}}]}}},"status":{"conditions":[{"lastTransitionTime":"2025-07-16T12:09:09Z","lastUpdateTime":"2025-07-17T07:29:37Z","message":"ReplicaSet \"cadete3-67876c7c48\" has successfully progressed.","reason":"NewReplicaSetAvailable","status":"True","type":"Progressing"},{"lastTransitionTime":"2025-07-17T10:28:10Z","lastUpdateTime":"2025-07-17T10:28:10Z","message":"Deployment has minimum availability.","reason":"MinimumReplicasAvailable","status":"True","type":"Available"}],"observedGeneration":215}}
+    creationTimestamp: "2025-07-17T10:47:26Z"
+    generation: 19
+    name: cadetefrt
+    namespace: wcdy-cert-frt
+    resourceVersion: "1161902166"
+    uid: a39156a6-c68e-47d8-b02f-69f80ded28a3
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: cadetefrt
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: cadetefrt
+      spec:
+        containers:
+        - env:
+          - name: HOST_MACHINE_MYSQL_PORT
+            value: "3306"
+          - name: EXT_ROOT
+            value: /var/www/html/public/ext
+          - name: MYSQL_HOST
+            value: cadete-db
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/cadete:1.0.11
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 60
+          resources:
+            limits:
+              cpu: 50m
+              memory: 1Gi
+            requests:
+              cpu: 50m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/www/html/public/ext
+            name: ext-volume
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: ext-volume
+          persistentVolumeClaim:
+            claimName: web-pvc
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2025-07-17T10:47:26Z"
+      lastUpdateTime: "2025-07-17T11:54:42Z"
+      message: ReplicaSet "cadetefrt-5c6b74dc95" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2025-07-17T11:55:28Z"
+      lastUpdateTime: "2025-07-17T11:55:28Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 19
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+kind: List
+metadata:
+  resourceVersion: ""

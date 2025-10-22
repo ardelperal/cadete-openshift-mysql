@@ -1,0 +1,68 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: pd.csi.storage.gke.io
+      volume.kubernetes.io/selected-node: ocgc4pgpre01-6cgsd-worker-c-l4ngc
+      volume.kubernetes.io/storage-provisioner: pd.csi.storage.gke.io
+    creationTimestamp: "2025-06-12T16:34:55Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    name: mysql-pvc
+namespace: wcdy-inte-frt
+    resourceVersion: "1096548895"
+    uid: 68a9f8ca-3740-441e-8d35-d7e2c44e588c
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 3Gi
+    storageClassName: apps-csi
+    volumeMode: Filesystem
+    volumeName: pvc-68a9f8ca-3740-441e-8d35-d7e2c44e588c
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 3Gi
+    phase: Bound
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: pd.csi.storage.gke.io
+      volume.kubernetes.io/selected-node: ocgc4pgpre01-6cgsd-worker-c-l4ngc
+      volume.kubernetes.io/storage-provisioner: pd.csi.storage.gke.io
+    creationTimestamp: "2025-06-25T16:48:18Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    name: web-pvc
+namespace: wcdy-inte-frt
+    resourceVersion: "1121000487"
+    uid: c3cfa247-3033-45f2-927b-ec3a8816b012
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 6Gi
+    storageClassName: apps-csi
+    volumeMode: Filesystem
+    volumeName: pvc-c3cfa247-3033-45f2-927b-ec3a8816b012
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 6Gi
+    phase: Bound
+kind: List
+metadata:
+  resourceVersion: ""
+

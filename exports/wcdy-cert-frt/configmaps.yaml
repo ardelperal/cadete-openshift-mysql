@@ -1,0 +1,220 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  data:
+    HOST_MACHINE_MYSQL_PORT: "3306"
+    MYSQL_DATABASE: cadete-database
+    MYSQL_USER: user
+    PMA_PORT: "8080"
+  immutable: false
+  kind: ConfigMap
+  metadata:
+    creationTimestamp: "2025-06-05T10:43:14Z"
+    name: cadete-config
+    namespace: wcdy-cert-frt
+    resourceVersion: "1082904182"
+    uid: 39ddb8ca-6ce9-4671-8494-891597aeaed7
+- apiVersion: v1
+  data:
+    MYSQL_USER: user
+  immutable: false
+  kind: ConfigMap
+  metadata:
+    creationTimestamp: "2025-06-05T10:44:06Z"
+    name: db-config
+    namespace: wcdy-cert-frt
+    resourceVersion: "1082905310"
+    uid: 6e459e16-f102-49d1-909f-4f5cdeaf563e
+- apiVersion: v1
+  data:
+    ca.crt: |
+      -----BEGIN CERTIFICATE-----
+      MIIDMjCCAhqgAwIBAgIINyMrEHheaN4wDQYJKoZIhvcNAQELBQAwNzESMBAGA1UE
+      CxMJb3BlbnNoaWZ0MSEwHwYDVQQDExhrdWJlLWFwaXNlcnZlci1sYi1zaWduZXIw
+      HhcNMjIxMDIxMjEzMzAxWhcNMzIxMDE4MjEzMzAxWjA3MRIwEAYDVQQLEwlvcGVu
+      c2hpZnQxITAfBgNVBAMTGGt1YmUtYXBpc2VydmVyLWxiLXNpZ25lcjCCASIwDQYJ
+      KoZIhvcNAQEBBQADggEPADCCAQoCggEBALiJCh8nBdKN0NGarYivkA575KARrWDv
+      y0rErxwtrjZESyqpXfJvp5/UocEOIsBzzu0V8xnjynjM1+dDsm6bwl5iF9GhtylQ
+      UJUXVIi8eub5FNVvfQQqbuQa2kzbwV6KozYBnB2cXt5vqlo4PqGAT1KURlUI72lY
+      iKq59pzB8E9eBQeQ0ORBDpIH49zcxWpn0ZhCSyT0wgMokMkq2+/INTkUzL6yFv3X
+      lq0fuWv/RyD9t+jP1fF1h3ajyqjVj/VDSacWRAk56yCzkbd0X7wWqgikCMafwZ0S
+      snq32erJpk+6SDb0MdSjZvTO/sh6mF3B7JM+YSuORXwFx+0f2abc4mcCAwEAAaNC
+      MEAwDgYDVR0PAQH/BAQDAgKkMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFAdL
+      byBih4V7FnlET444NiX8k6vCMA0GCSqGSIb3DQEBCwUAA4IBAQAA4feL5LZ7zXmO
+      MfGVwhyy90y2NZoJuvLh8pP2PtFYDp7nBKISuWORNa/JU8JGDEsbkt5DCCamJMbu
+      Rxbx2kayXfu6h0TQJ389KWHi9irOcKDs6Sdf33SMSoFLiRhi0Sgt1oc0xn+iR2zh
+      yU6cB9nSCzPHpsu9QTh1rf7mJr+9UEzML6T1uMOX0ZQ/CIsYkVawyJsshUznX/lZ
+      g+CeVPUILBGULZxSWjzCgVKOGb4nUyOU9BXeqtzVFCIGjCNItPb7bf0uEcZz269c
+      MMCotdI4rSFWIU78UMoEH3b58pv5FSuK80X5p26j6YcrcdBX0OkUni1jJVdW5Qs3
+      YgU+EgIw
+      -----END CERTIFICATE-----
+      -----BEGIN CERTIFICATE-----
+      MIIDQDCCAiigAwIBAgIIQNTlIhj7fjowDQYJKoZIhvcNAQELBQAwPjESMBAGA1UE
+      CxMJb3BlbnNoaWZ0MSgwJgYDVQQDEx9rdWJlLWFwaXNlcnZlci1sb2NhbGhvc3Qt
+      c2lnbmVyMB4XDTIyMTAyMTIxMzMwMFoXDTMyMTAxODIxMzMwMFowPjESMBAGA1UE
+      CxMJb3BlbnNoaWZ0MSgwJgYDVQQDEx9rdWJlLWFwaXNlcnZlci1sb2NhbGhvc3Qt
+      c2lnbmVyMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnD6DTQAPoGiX
+      I2wDmIgaq5qyxBtTlamJGnpGXT0rgiIDPM4KN72kKO5FdhvucI8UmXeXPAAgIgWd
+      gokWKaN4bTWuKatsshPOQhmxqkXl5u5VA8+CV3XwgpASz/BloDh2j0Xy0m3+uozp
+      BGQyQgGSCssvLQ1HbEFW7qUv7ZeMI/riy34X4f0Vip3DTfyqrEOZgzkoeg74e9Ul
+      /xoHz1vqFfwDRP7QKByi0GqX9gDzZQkx2bogZZUsfyiS8iD/bjonNMl3yQE9JN4Y
+      cW2//1rk6Rk+iUlvzoGEkIqj33ONFiA4qKzpZc2pNvRB/Oy+Hh0EDzm8FP1udRXB
+      i3JgQ7UieQIDAQABo0IwQDAOBgNVHQ8BAf8EBAMCAqQwDwYDVR0TAQH/BAUwAwEB
+      /zAdBgNVHQ4EFgQUqCiu6IlF+XImACNAmYHR5KNjfJAwDQYJKoZIhvcNAQELBQAD
+      ggEBAAJ9rPZ0lYhuGnYK+9RKZ4w1B13QhUv93DvXZTgS2FxJ8Yl5fQvgxrp6lplU
+      zr4WH0qwRBs0C+uA1UdKHn/bNsI/WUklxXX7sClcSVUBmASlPM0pzx960t6df2A/
+      LLp28j7uzmpF7qZUBWXHK8XLBbwA8tt3E1mPbTTup2BrnqKrisK7HXsyXffirx1f
+      Smm90kaGIuah7LJOpIA5DOYUUt3We84xdUYEKT7/6QR1G3oiWbf8YCE48IxHztdn
+      k0NMR5JJUd9RSZAH5Gg1+pbOOQNeJ5VxzLjeZ1BHfQPfxCXCx6X4lSDBeOqlmpKZ
+      ElQ38Hkt80DUlYuOuin8GXX0AHA=
+      -----END CERTIFICATE-----
+      -----BEGIN CERTIFICATE-----
+      MIIDTDCCAjSgAwIBAgIIeY3dOOTD7powDQYJKoZIhvcNAQELBQAwRDESMBAGA1UE
+      CxMJb3BlbnNoaWZ0MS4wLAYDVQQDEyVrdWJlLWFwaXNlcnZlci1zZXJ2aWNlLW5l
+      dHdvcmstc2lnbmVyMB4XDTIyMTAyMTIxMzMwMFoXDTMyMTAxODIxMzMwMFowRDES
+      MBAGA1UECxMJb3BlbnNoaWZ0MS4wLAYDVQQDEyVrdWJlLWFwaXNlcnZlci1zZXJ2
+      aWNlLW5ldHdvcmstc2lnbmVyMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+      AQEA6AcF5cW+wazJ4xsaLs3pxSEc9WH/6pQEwU153U+OcyW4DoG3T4NotkGT90uA
+      0KX8IueVj73QgzzLoqavmgD00tJWcCztVN3fzmLf8wwwnVS9cLYXpyz6iWD/hwa5
+      xJgpmnczbX1fd29pCz9qOpOqy31a5YodGVASmp3XNa631sAbR+3HMlkqYZxueqeN
+      Dc1hST1GQfO0G1lrvSpVCQpEzkj4FZEktRTe5Z3yv5HhilEMrJ1u+et9TA2iXvDL
+      rTtwkkvimarsczoBXNNFMj0I+O1yR+09YrJD7pufKNbUej7C3YJ8scEbY3jG2YJ5
+      NA+dwXQvQg+FsuY9CVT1zwr20QIDAQABo0IwQDAOBgNVHQ8BAf8EBAMCAqQwDwYD
+      VR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUUOCYffyNPEUlCIEE1WudHnQ+71IwDQYJ
+      KoZIhvcNAQELBQADggEBAL9c/GBY+TsC/X6IUTPqyGo7kWwn6aIzUgXVpbkmr7RW
+      XGyzLIX58eISPpvVgW1HqgHyUrTTWwXAdYbg3KYulaoBgKTqVtpztPwN2hIfJVyK
+      iWUiKI3GPKhaPntYaeyAIsMCplLhDilTCbFx5cLA8r6ImXM+OQgG9+2O4dHsBRA1
+      fvNELVr5l800AjgGjouAVZ25b0cu5s8mH4ZZHkkACEmmW+3tFdmD4Ui/NqgTOHVP
+      fZQ9oHEwSNTf8bgeHjgocPgZFNOYxbbTZgq0SVRXE7Oybt9TIfdCNPeALpUsPDu2
+      WNxvBr19zitNW4YdpjoLP/nyezCQv4sMKfFFSYeMsqA=
+      -----END CERTIFICATE-----
+      -----BEGIN CERTIFICATE-----
+      MIIDlzCCAn+gAwIBAgIISBYY3VcwiGcwDQYJKoZIhvcNAQELBQAwWTFXMFUGA1UE
+      AwxOb3BlbnNoaWZ0LWt1YmUtYXBpc2VydmVyLW9wZXJhdG9yX2xvY2FsaG9zdC1y
+      ZWNvdmVyeS1zZXJ2aW5nLXNpZ25lckAxNjY2Mzg4NTAyMB4XDTIyMTAyMTIxNDE0
+      MVoXDTMyMTAxODIxNDE0MlowWTFXMFUGA1UEAwxOb3BlbnNoaWZ0LWt1YmUtYXBp
+      c2VydmVyLW9wZXJhdG9yX2xvY2FsaG9zdC1yZWNvdmVyeS1zZXJ2aW5nLXNpZ25l
+      ckAxNjY2Mzg4NTAyMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoIx1
+      9QEgk+5M3hSDWNrbLdsQNF240gHl+JkbCTiKVnTu8cU4G5m3IaPoCOx0SaQxrCSn
+      NaEMIhN6q8MbbnJuec1b6zqi9f2SqNmptx+VlfMXOjW2mmbCz4ets/WVhr6V1H78
+      YVU/U/lPJbB6iNoj86JanQ5usiDunyciBEYpGyuebyDoBs3Zu9KfjcF9fXZweo6I
+      bOUYbTANQqsrWLl4fGsIz1J3ZqWEhxVnkNorT+Gg/Ldz6ZzoV8eOu5TbhDvJKCKk
+      faKiD0IbhjYoDH2IfhUVOXXgJ1IhMEdG0ThKWJYMd2xJ6mPdKhS0upe+Gyzmc29p
+      /Utn7KTCP1Ce/GUlFwIDAQABo2MwYTAOBgNVHQ8BAf8EBAMCAqQwDwYDVR0TAQH/
+      BAUwAwEB/zAdBgNVHQ4EFgQUFmBiz/y/Xwcd+/rMztv8l8pTo4QwHwYDVR0jBBgw
+      FoAUFmBiz/y/Xwcd+/rMztv8l8pTo4QwDQYJKoZIhvcNAQELBQADggEBAHWW+cNI
+      h/WBpzj0G+qxSheSE3JL6+gEOB7tCCsEHHSNO3cuDDeNycwSNuoCgXwpBGcSeZwB
+      OkrjwOfNF9RaGncVwEd9cmBnIslEyaGsoXTWAwtYcFBXb7iom515+xRBI38bMBeO
+      Eqr/VMDrvRkIKBfOQvgvS/eLXuGUuCNU3Djn9LpSVAzakIAvLbb8V/ratAjjoM+w
+      S/4W1UBmIrfqUfWa1KrMvnJQHaGVBB15hXYIv8XMFK69tO0dloAmrLdoNA1Tl9zT
+      +0bhZNEOxZScNvlb8LFAlNWBGlIsAUQR7GfgyDlfrd8daiHeSVAZwsYGP31JriBx
+      YInc6b2YAQROTPw=
+      -----END CERTIFICATE-----
+      -----BEGIN CERTIFICATE-----
+      MIIDkzCCAnugAwIBAgIICjXtffn9xEowDQYJKoZIhvcNAQELBQAwJjEkMCIGA1UE
+      AwwbaW5ncmVzcy1vcGVyYXRvckAxNzI4OTIxNzIxMB4XDTI0MTAxNDE2MDI1OVoX
+      DTI2MTAxNDE2MDMwMFowOTE3MDUGA1UEAwwuKi5hcHBzLm9jZ2M0cGdwcmUwMS5t
+      Z210LnRlc3QuZGMuZXMudGVsZWZvbmljYTCCASIwDQYJKoZIhvcNAQEBBQADggEP
+      ADCCAQoCggEBAMl8L6h1W7NTWM5vsdTTwZ8V4mf25BGf8mt73Mgt14lALLXBmPlm
+      z8ZkF5n5wcz2/3vMRkvtRuTYirAjTiczvj/um2aldlnLD8eAoYSXFNu+UWv4XM6N
+      cpXJanK92qOJzbKXXFeV4I9qVW6rdCL4d082aabgQnaBojztyocm9Ds2fCQf/cng
+      OcfxSFiwyqvz8AdCMdt2dGFjFAMCSNle65+C1Nl3lHGpfhp4AtI9+32lTh6MMM26
+      VZwv+llg4Cjq05mKa7OpOIAI5tn+EbcbbmcfGtK82nmwzhcDheHj+mz3t8yldOR+
+      dmKnbr3y1qdYtOiORc2jrbLkdPQIkxuiXS8CAwEAAaOBsTCBrjAOBgNVHQ8BAf8E
+      BAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwEwDAYDVR0TAQH/BAIwADAdBgNVHQ4E
+      FgQURZYVF0ZmBSAkEie55kzsPKVB7c0wHwYDVR0jBBgwFoAU19IRR6tkMfAspnms
+      8UsdLLVDLmkwOQYDVR0RBDIwMIIuKi5hcHBzLm9jZ2M0cGdwcmUwMS5tZ210LnRl
+      c3QuZGMuZXMudGVsZWZvbmljYTANBgkqhkiG9w0BAQsFAAOCAQEAA4qnEc0ofUo4
+      zDj2PV9LMb4wl710dSV3qW+PRRG3BTq2hGH8RetG7OThdi+jMTiPOaezApBWqwuJ
+      zp6kuVkRrQaQcXoWaGKxf5d/ezNzTrkM1bhLmK4VuLY/CcooDzw0NJvHHL0Mxi6O
+      QdSsBVBthBbgKhc3IQQ4RRoxLQ1gkDElQnUlJzEStAlA22wYC7oenFQQRAAfa09W
+      U1HyN4kmDll/HdHUGgpv1KlHTN7y79dngPTaO+4D1tYiiYs6whiRaIXH2ysapRjM
+      VOJEB3l6PQioK/196r+E/DwR+7pdoK0LUFlPDV+WR++9i6uAvbQuPqn2qaqRhSjd
+      oPvnz55rJQ==
+      -----END CERTIFICATE-----
+      -----BEGIN CERTIFICATE-----
+      MIIDDDCCAfSgAwIBAgIBATANBgkqhkiG9w0BAQsFADAmMSQwIgYDVQQDDBtpbmdy
+      ZXNzLW9wZXJhdG9yQDE3Mjg5MjE3MjEwHhcNMjQxMDE0MTYwMjAwWhcNMjYxMDE0
+      MTYwMjAxWjAmMSQwIgYDVQQDDBtpbmdyZXNzLW9wZXJhdG9yQDE3Mjg5MjE3MjEw
+      ggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDGOxMgL9gSRXlIU2pwKGCH
+      nDCMchf82DthJQ/N5TL1OccJ8SoCAHxIT/vYD/AUl8R/4usZJrgCJqry5V5XpU2c
+      v0eGPpNySYGWkuznl05wKGjyj8yn+hhBN15vYn9o2qrcyv0sru6jGqu9bxL1HgQi
+      CjtwgQEp2s3TZU9BeKFM3DXdJy4HuvOE2b9YN6Iucw2d92WuORcQL6jYAOZTN69H
+      dKSVLSEdMax1OSPKJJw9XDKRus1fUddcLvsTYz1DirsnebKhPHFrdc+iGPbci+rV
+      8rSu3eaa56TQdX2/wZswN2Z9EwKgFkkpWEhREHZ/ONdGWuV5dCF1+/QXs2AjUg1z
+      AgMBAAGjRTBDMA4GA1UdDwEB/wQEAwICpDASBgNVHRMBAf8ECDAGAQH/AgEAMB0G
+      A1UdDgQWBBTX0hFHq2Qx8CymeazxSx0stUMuaTANBgkqhkiG9w0BAQsFAAOCAQEA
+      p23+GMyOJ+9lfnO2ZU8E4FUSJmUJ2XZCXo3eyiMeJPsYRmGUTXDMP6DbRzOlTsRS
+      bewDYZ07RRCGxbeWEdCTf9zQL79NyUAFy6Q662yG499ugNhDo9aNdafJPSZhOnyO
+      CAaK0jo4d6Grlc268KcMbsl+qADNQ+g6gVsyww0XXll+hUO6usjMwpZz+7azglQ7
+      3FWETOy/2NE8p3taifqmZLJJTleCDGlCbVSzIeLkG6yPxgiH0mby+jY7PqPC7+Dk
+      Mw9M5vcTAEVkHs1WvHNaqIoTwAboTl43RLBQoy5fAIUO2lcEnSFGLl5exlyHGKqb
+      tVKBaP8oDcFMFuhuPakkLg==
+      -----END CERTIFICATE-----
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubernetes.io/description: Contains a CA bundle that can be used to verify the
+        kube-apiserver when using internal endpoints such as the internal service
+        IP or kubernetes.default.svc. No other usage is guaranteed across distributions
+        of Kubernetes clusters.
+    creationTimestamp: "2025-06-04T13:45:49Z"
+    name: kube-root-ca.crt
+    namespace: wcdy-cert-frt
+    resourceVersion: "1081262858"
+    uid: 36fc94d9-6c40-4d24-af34-d5560c5c3c2f
+- apiVersion: v1
+  data:
+    service-ca.crt: |
+      -----BEGIN CERTIFICATE-----
+      MIIDUTCCAjmgAwIBAgIIZFSI2s9uToowDQYJKoZIhvcNAQELBQAwNjE0MDIGA1UE
+      Awwrb3BlbnNoaWZ0LXNlcnZpY2Utc2VydmluZy1zaWduZXJAMTY2NjM4ODUwMjAe
+      Fw0yNDEyMTkyMTQzMDBaFw0yNzAyMTcyMTQzMDFaMDYxNDAyBgNVBAMMK29wZW5z
+      aGlmdC1zZXJ2aWNlLXNlcnZpbmctc2lnbmVyQDE2NjYzODg1MDIwggEiMA0GCSqG
+      SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDFOGH2Y0TjLFETOZp6BNvrJMUAw21Ypb8H
+      D5Tewq8+FiAoWKsGJ8RK7mJmIb4rUWxtq/Zqru+pxaKjuG9DoawwlayIv4JZzUUr
+      en4+Zm2a8K+5zxOtiJDsWkSI0s7RS3NgUNi60/OCqaHM/Td2SnoMjXzzPRuhUyVl
+      ajwzGykrdNfv0IJi1MeiPq+1BqELQ3d+N3hlpxEuGw4obSwZawUrV5+A4cmxT2d0
+      kWm7i3vgHbaeyXoSJ6mmY/fqlmR+TzzszHnzqVRlM96d9iTVPIUGlgDaWK4oO08w
+      U24jwo6W1xNs6hNV4EeTt1fIUA87+SXQSXsIC1t+6ClEK/ziiEeDAgMBAAGjYzBh
+      MA4GA1UdDwEB/wQEAwICpDAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBTVwfsr
+      HKJ6TpvSZalg31wMmdfXVzAfBgNVHSMEGDAWgBTVwfsrHKJ6TpvSZalg31wMmdfX
+      VzANBgkqhkiG9w0BAQsFAAOCAQEAc1lHBsR52xADOwIR3lIn1lfCXGvtkmEfaqKC
+      E/q5jcT5beFuhlal/0eyIoMUJIzlMoZDWK+JTZmmQz8Nym6f1R1mu4cMVrFNXv0W
+      39vXuAJSghc3CM7wyHmFICE2LmwOQ76QU4UdaRb2+TBVehFt6h3C7FKtz4oonccR
+      4lVenz69raE5M/VnCoCdNyc+R6gDz1qLor6LzGeUMFfY0UXSri3rua+IZTAU9CeS
+      LM4IIR+JXZWlEnvDwmZz4o7WJ9e+im7HwHCV7VePLbnAIo6fYugvEQnZCS2V9Hsr
+      L2lYlRur7J2HAuMvl+q3f+I2wiBLE19sI3fQlptm/qJ/YRqOHw==
+      -----END CERTIFICATE-----
+      -----BEGIN CERTIFICATE-----
+      MIIDUTCCAjmgAwIBAgIIGUxKci/pjkgwDQYJKoZIhvcNAQELBQAwNjE0MDIGA1UE
+      Awwrb3BlbnNoaWZ0LXNlcnZpY2Utc2VydmluZy1zaWduZXJAMTY2NjM4ODUwMjAe
+      Fw0yMzExMjAyMTQxNTVaFw0yNjAxMTgyMTQzMDFaMDYxNDAyBgNVBAMMK29wZW5z
+      aGlmdC1zZXJ2aWNlLXNlcnZpbmctc2lnbmVyQDE2NjYzODg1MDIwggEiMA0GCSqG
+      SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDrPUr15Y18gncFWYawn2H7PMr73cGCeS7L
+      8GpMEXIpQ8s5UcMWoMVFIvpqP5aOQubqzmQDlJ61hqaBCFoL583SXIm5OeXBsOwU
+      EBEuJvQwBWymzFPApfdnCwEGp/SAjZtnMJzRVBo1Ko0JhZepE/zBbTtXYmOUi6Gb
+      QhPmeb64QZ/ujhsxwdcDDrDrbswcUkzPVN0rarqpQ/NGR54MN5KIMXlXZy6YqJaX
+      lL8TEjIaAjDQRIMCZ2B2kZpCrSZsAtNgTnVDgqE1WZoeItyEJPatKVvOWZaD3ef/
+      0raZejoWkjXzl4yT2Fc4i3cu1L5TXCRWxcrc1OJ/HZ0VND5xxj2XAgMBAAGjYzBh
+      MA4GA1UdDwEB/wQEAwICpDAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBQdgvaf
+      ZWkniKBFkNbFzoKSeU3CHTAfBgNVHSMEGDAWgBTVwfsrHKJ6TpvSZalg31wMmdfX
+      VzANBgkqhkiG9w0BAQsFAAOCAQEAOZYYlD0X2tT7Sy3Rpbe8Jl5WpAJgiTOtOJ4e
+      48rPfwKFUd4BFzsC2jKhXN8c07fQ1vK1emRRSfzRJjX8KuhTFFEuWOXWf6lpB1PK
+      kEybNAcS9t3hOvd2P5vdxwPe+N2q7veYik7oOY1WsRv9IIpcCkR/JVyWhs75A2jG
+      qzjw6b3I4W6xxdiqA2vu+9952fG2HUaDN1a66o9qe/GkhsgT90eqivdPWU/AmXQo
+      dIxRheTswNmJKO0lpAL/oUQ3WD0DyD7fOoOjx+l5sBIooeG17jTNsI4eThZSV8u2
+      DVBAeSZhFsPkAFMqYvZCu4YCHL5UzI4lec2HRC4L7yxLmnwruQ==
+      -----END CERTIFICATE-----
+  kind: ConfigMap
+  metadata:
+    annotations:
+      service.beta.openshift.io/inject-cabundle: "true"
+    creationTimestamp: "2025-06-04T13:45:49Z"
+    name: openshift-service-ca.crt
+    namespace: wcdy-cert-frt
+    resourceVersion: "1081262874"
+    uid: 8e72e5a6-b363-4ccd-aa47-9d39db010565
+kind: List
+metadata:
+  resourceVersion: ""

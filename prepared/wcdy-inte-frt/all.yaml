@@ -1,0 +1,2475 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      k8s.v1.cni.cncf.io/network-status: |-
+        [{
+            "name": "openshift-sdn",
+            "interface": "eth0",
+            "ips": [
+                "10.131.9.230"
+            ],
+            "default": true,
+            "dns": {}
+        }]
+      kubectl.kubernetes.io/restartedAt: "2025-06-10T12:56:15+02:00"
+      openshift.io/scc: restricted-v2
+      seccomp.security.alpha.kubernetes.io/pod: runtime/default
+    creationTimestamp: "2025-07-14T09:45:32Z"
+    generateName: cadete-db-7d67b44f75-
+    labels:
+      app: cadete3
+      pod-template-hash: 7d67b44f75
+    name: cadete-db-7d67b44f75-mzsdl
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: cadete-db-7d67b44f75
+      uid: b6492fa6-391d-4152-8a51-20c86c1c2228
+    resourceVersion: "1156086082"
+    uid: 64b5599b-14fe-4b85-aead-8ce7ca5934df
+  spec:
+    containers:
+    - env:
+      - name: MYSQL_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            key: MYSQL_PASSWORD
+            name: mysql-secret
+      - name: MYSQL_USER
+        valueFrom:
+          secretKeyRef:
+            key: MYSQL_USER
+            name: mysql-secret
+      - name: MYSQL_ROOT_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            key: MYSQL_ROOT_PASSWORD
+            name: mysql-secret
+      image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V02
+      imagePullPolicy: IfNotPresent
+      name: container
+      ports:
+      - containerPort: 3306
+        protocol: TCP
+      resources:
+        limits:
+          cpu: 200m
+          memory: 1Gi
+        requests:
+          cpu: 150m
+          memory: 512Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        runAsNonRoot: true
+        runAsUser: 1001170000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/lib/mysql
+        name: mysql-data
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-r9bgm
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    imagePullSecrets:
+    - name: quay-wcdy-pullsecret
+    nodeName: ocgc4pgpre01-6cgsd-worker-c-l4ngc
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1001170000
+      seLinuxOptions:
+        level: s0:c34,c24
+      seccompProfile:
+        type: RuntimeDefault
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - name: mysql-data
+      persistentVolumeClaim:
+        claimName: mysql-pvc
+    - name: kube-api-access-r9bgm
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+        - configMap:
+            items:
+            - key: service-ca.crt
+              path: service-ca.crt
+            name: openshift-service-ca.crt
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-07-14T09:45:45Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-07-14T09:45:32Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-07-14T09:45:45Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-07-14T09:45:45Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-07-14T09:45:32Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://76538dafbb18208574461e887130b598f6582fd1350da08e2340bf904c4e7fd1
+      image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V02
+      imageID: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql@sha256:386892616218c10cef69098bfa8ed7b42f2b670f40a05f48b9cecb136b50ff28
+      lastState: {}
+      name: container
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-07-14T09:45:44Z"
+    hostIP: 10.64.217.232
+    hostIPs:
+    - ip: 10.64.217.232
+    phase: Running
+    podIP: 10.131.9.230
+    podIPs:
+    - ip: 10.131.9.230
+    qosClass: Burstable
+    startTime: "2025-07-14T09:45:32Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      k8s.v1.cni.cncf.io/network-status: |-
+        [{
+            "name": "openshift-sdn",
+            "interface": "eth0",
+            "ips": [
+                "10.131.9.208"
+            ],
+            "default": true,
+            "dns": {}
+        }]
+      openshift.io/scc: restricted-v2
+      seccomp.security.alpha.kubernetes.io/pod: runtime/default
+    creationTimestamp: "2025-07-17T11:54:48Z"
+    generateName: cadetefrt-5c6b74dc95-
+    labels:
+      app: cadetefrt
+      pod-template-hash: 5c6b74dc95
+    name: cadetefrt-5c6b74dc95-5zhxt
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: cadetefrt-5c6b74dc95
+      uid: 6ff7f460-9aa2-4961-bf33-9c86531da391
+    resourceVersion: "1161902162"
+    uid: 455df0fd-f57c-4347-a04c-08c8b3fa3b14
+  spec:
+    containers:
+    - env:
+      - name: HOST_MACHINE_MYSQL_PORT
+        value: "3306"
+      - name: EXT_ROOT
+        value: /var/www/html/public/ext
+      - name: MYSQL_HOST
+        value: cadete-db
+      - name: MYSQL_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            key: MYSQL_PASSWORD
+            name: mysql-secret
+      - name: MYSQL_ROOT_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            key: MYSQL_ROOT_PASSWORD
+            name: mysql-secret
+      - name: MYSQL_USER
+        valueFrom:
+          secretKeyRef:
+            key: MYSQL_USER
+            name: mysql-secret
+      image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/cadete:1.0.11
+      imagePullPolicy: IfNotPresent
+      name: container
+      ports:
+      - containerPort: 8080
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 5
+        httpGet:
+          path: /
+          port: 8080
+          scheme: HTTP
+        initialDelaySeconds: 20
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 60
+      resources:
+        limits:
+          cpu: 50m
+          memory: 1Gi
+        requests:
+          cpu: 50m
+          memory: 512Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        runAsNonRoot: true
+        runAsUser: 1001170000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/www/html/public/ext
+        name: ext-volume
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-52klz
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    imagePullSecrets:
+    - name: quay-wcdy-pullsecret
+    nodeName: ocgc4pgpre01-6cgsd-worker-c-l4ngc
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1001170000
+      seLinuxOptions:
+        level: s0:c34,c24
+      seccompProfile:
+        type: RuntimeDefault
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - name: ext-volume
+      persistentVolumeClaim:
+        claimName: web-pvc
+    - name: kube-api-access-52klz
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+        - configMap:
+            items:
+            - key: service-ca.crt
+              path: service-ca.crt
+            name: openshift-service-ca.crt
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-07-17T11:55:02Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-07-17T11:54:48Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-07-17T11:55:28Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-07-17T11:55:28Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-07-17T11:54:48Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://ec7512436028203954d2c22e594dcc395e71bf6c886bcdabe16b133165a94db6
+      image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/cadete:1.0.11
+      imageID: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/cadete@sha256:003cd2c92a6f6d9842ef75f44400c0069449639c5112ac36c9ffa58664b762f0
+      lastState: {}
+      name: container
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-07-17T11:55:01Z"
+    hostIP: 10.64.217.232
+    hostIPs:
+    - ip: 10.64.217.232
+    phase: Running
+    podIP: 10.131.9.208
+    podIPs:
+    - ip: 10.131.9.208
+    qosClass: Burstable
+    startTime: "2025-07-17T11:54:48Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"adminer","namespace":"wcdy-cert-frt"},"spec":{"ports":[{"port":8081,"protocol":"TCP","targetPort":8081}],"selector":{"app":"adminer"}}}
+    creationTimestamp: "2025-06-12T16:46:11Z"
+    name: adminer
+namespace: wcdy-inte-frt
+    resourceVersion: "1096561438"
+    uid: e6093ecf-99b7-422c-99ce-db273bcd9a4d
+  spec:
+    clusterIP: 172.30.84.230
+    clusterIPs:
+    - 172.30.84.230
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 8081
+      protocol: TCP
+      targetPort: 8081
+    selector:
+      app: adminer
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"cadete-db","namespace":"wcdy-cert-frt"},"spec":{"ports":[{"name":"mysql","port":3306,"protocol":"TCP","targetPort":3306}],"selector":{"app":"cadete3"}}}
+    creationTimestamp: "2025-06-17T08:03:21Z"
+    name: cadete-db
+namespace: wcdy-inte-frt
+    resourceVersion: "1105267258"
+    uid: 462b68a6-d2cb-4de4-9bc1-4278288bd9df
+  spec:
+    clusterIP: 172.30.72.127
+    clusterIPs:
+    - 172.30.72.127
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: mysql
+      port: 3306
+      protocol: TCP
+      targetPort: 3306
+    selector:
+      app: cadete3
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app":"cadete3"},"name":"cadete3","namespace":"wcdy-cert-frt"},"spec":{"ports":[{"port":8080,"protocol":"TCP","targetPort":8080}],"selector":{"app":"cadete3"},"type":"ClusterIP"}}
+    creationTimestamp: "2025-06-13T11:43:25Z"
+    labels:
+      app: cadetefrt
+    name: cadete3
+namespace: wcdy-inte-frt
+    resourceVersion: "1161824714"
+    uid: a6b5e514-5b6c-4578-b5ca-b92021b202df
+  spec:
+    clusterIP: 172.30.93.148
+    clusterIPs:
+    - 172.30.93.148
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: cadetefrt
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "2"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"adminer","namespace":"wcdy-cert-frt"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"adminer"}},"template":{"metadata":{"labels":{"app":"adminer"}},"spec":{"containers":[{"image":"quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/adminer:V01","imagePullPolicy":"IfNotPresent","name":"adminer","ports":[{"containerPort":8081,"protocol":"TCP"}],"resources":{"limits":{"cpu":"100m","memory":"256Mi"},"requests":{"cpu":"50m","memory":"128Mi"}}}],"imagePullSecrets":[{"name":"quay-wcdy-pullsecret"}]}}}}
+    creationTimestamp: "2025-06-12T16:46:10Z"
+    generation: 7
+    name: adminer
+namespace: wcdy-inte-frt
+    resourceVersion: "1097569874"
+    uid: a7a5433c-5ece-4540-9603-70b379621642
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 0
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: adminer
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: adminer
+      spec:
+        containers:
+        - image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/adminer:V01
+          imagePullPolicy: IfNotPresent
+          name: adminer
+          ports:
+          - containerPort: 8081
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 50m
+              memory: 128Mi
+            requests:
+              cpu: 25m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    conditions:
+    - lastTransitionTime: "2025-06-12T16:46:10Z"
+      lastUpdateTime: "2025-06-12T16:51:33Z"
+      message: ReplicaSet "adminer-658cf8f4bc" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2025-06-13T05:39:19Z"
+      lastUpdateTime: "2025-06-13T05:39:19Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 7
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2025-06-05T10:31:59Z"
+    generation: 1
+    name: alpine-deployment
+namespace: wcdy-inte-frt
+    resourceVersion: "1082889463"
+    uid: f8d66c3a-289d-4332-9246-cd7173b54609
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 0
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: alpine-app
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: alpine-app
+      spec:
+        containers:
+        - command:
+          - sleep
+          - "3600"
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/alpine:v01
+          imagePullPolicy: IfNotPresent
+          name: alpine-container
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    conditions:
+    - lastTransitionTime: "2025-06-05T10:31:59Z"
+      lastUpdateTime: "2025-06-05T10:31:59Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2025-06-05T10:31:59Z"
+      lastUpdateTime: "2025-06-05T10:31:59Z"
+      message: ReplicaSet "alpine-deployment-797f78b6d6" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "26"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"deployment.kubernetes.io/revision":"5"},"name":"cadete-db","namespace":"wcdy-cert-frt"},"spec":{"progressDeadlineSeconds":600,"replicas":1,"revisionHistoryLimit":10,"selector":{"matchLabels":{"app":"cadete3"}},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":"25%"},"type":"RollingUpdate"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"cadete3"}},"spec":{"containers":[{"env":[{"name":"MYSQL_PASSWORD","valueFrom":{"secretKeyRef":{"key":"MYSQL_PASSWORD","name":"mysql-secret"}}},{"name":"MYSQL_ROOT_PASSWORD","valueFrom":{"secretKeyRef":{"key":"MYSQL_ROOT_PASSWORD","name":"mysql-secret"}}},{"name":"MYSQL_USER","valueFrom":{"secretKeyRef":{"key":"MYSQL_USER","name":"mysql-secret"}}}],"image":"quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V01","imagePullPolicy":"IfNotPresent","name":"container","ports":[{"containerPort":8081,"protocol":"TCP"}],"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","volumeMounts":[{"mountPath":"/var/lib/mysql","name":"mysql-data"}]}],"dnsPolicy":"ClusterFirst","imagePullSecrets":[{"name":"quay-wcdy-pullsecret"}],"restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30,"volumes":[{"name":"mysql-data","persistentVolumeClaim":{"claimName":"mysql-pvc"}}]}}}}
+    creationTimestamp: "2025-06-05T10:37:34Z"
+    generation: 81
+    name: cadete-db
+namespace: wcdy-inte-frt
+    resourceVersion: "1156086088"
+    uid: 0c5399ee-e0c3-40d0-8420-c76233251b8d
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: cadete3
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2025-06-10T12:56:15+02:00"
+        creationTimestamp: null
+        labels:
+          app: cadete3
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V02
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1Gi
+            requests:
+              cpu: 150m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mysql-data
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2025-06-13T11:11:57Z"
+      lastUpdateTime: "2025-07-09T12:03:54Z"
+      message: ReplicaSet "cadete-db-7d67b44f75" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2025-07-14T09:45:45Z"
+      lastUpdateTime: "2025-07-14T09:45:45Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 81
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"Deployment","name":"cadete-db"}]'
+      deployment.kubernetes.io/revision: "6"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"app.openshift.io/connects-to":"[{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"name\":\"cadete-db\"}]","deployment.kubernetes.io/revision":"81"},"creationTimestamp":"2025-06-05T10:35:34Z","generation":215,"name":"cadetefrt","namespace":"wcdy-cert-frt","resourceVersion":"1161795098","uid":"afd24d7e-9623-440f-a976-4ab91b18d9d0"},"spec":{"progressDeadlineSeconds":600,"replicas":0,"revisionHistoryLimit":10,"selector":{"matchLabels":{"app":"cadetefrt"}},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":"25%"},"type":"RollingUpdate"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"cadetefrt"}},"spec":{"containers":[{"env":[{"name":"HOST_MACHINE_MYSQL_PORT","value":"3306"},{"name":"EXT_ROOT","value":"/var/www/html/public/ext"},{"name":"MYSQL_HOST","value":"cadete-db"},{"name":"MYSQL_PASSWORD","valueFrom":{"secretKeyRef":{"key":"MYSQL_PASSWORD","name":"mysql-secret"}}},{"name":"MYSQL_ROOT_PASSWORD","valueFrom":{"secretKeyRef":{"key":"MYSQL_ROOT_PASSWORD","name":"mysql-secret"}}},{"name":"MYSQL_USER","valueFrom":{"secretKeyRef":{"key":"MYSQL_USER","name":"mysql-secret"}}}],"image":"quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/cadete:1.0.11","imagePullPolicy":"IfNotPresent","name":"container","ports":[{"containerPort":8080,"protocol":"TCP"}],"readinessProbe":{"failureThreshold":5,"httpGet":{"path":"/","port":8080,"scheme":"HTTP"},"initialDelaySeconds":20,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":60},"resources":{"limits":{"cpu":"300m","memory":"1Gi"},"requests":{"cpu":"250m","memory":"512Mi"}},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","volumeMounts":[{"mountPath":"/var/www/html/public/ext","name":"ext-volume"}]}],"dnsPolicy":"ClusterFirst","imagePullSecrets":[{"name":"quay-wcdy-pullsecret"}],"restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30,"volumes":[{"name":"ext-volume","persistentVolumeClaim":{"claimName":"web-pvc"}}]}}},"status":{"conditions":[{"lastTransitionTime":"2025-07-16T12:09:09Z","lastUpdateTime":"2025-07-17T07:29:37Z","message":"ReplicaSet \"cadete3-67876c7c48\" has successfully progressed.","reason":"NewReplicaSetAvailable","status":"True","type":"Progressing"},{"lastTransitionTime":"2025-07-17T10:28:10Z","lastUpdateTime":"2025-07-17T10:28:10Z","message":"Deployment has minimum availability.","reason":"MinimumReplicasAvailable","status":"True","type":"Available"}],"observedGeneration":215}}
+    creationTimestamp: "2025-07-17T10:47:26Z"
+    generation: 19
+    name: cadetefrt
+namespace: wcdy-inte-frt
+    resourceVersion: "1161902166"
+    uid: a39156a6-c68e-47d8-b02f-69f80ded28a3
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: cadetefrt
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: cadetefrt
+      spec:
+        containers:
+        - env:
+          - name: HOST_MACHINE_MYSQL_PORT
+            value: "3306"
+          - name: EXT_ROOT
+            value: /var/www/html/public/ext
+          - name: MYSQL_HOST
+            value: cadete-db
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/cadete:1.0.11
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 60
+          resources:
+            limits:
+              cpu: 50m
+              memory: 1Gi
+            requests:
+              cpu: 50m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/www/html/public/ext
+            name: ext-volume
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: ext-volume
+          persistentVolumeClaim:
+            claimName: web-pvc
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2025-07-17T10:47:26Z"
+      lastUpdateTime: "2025-07-17T11:54:42Z"
+      message: ReplicaSet "cadetefrt-5c6b74dc95" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2025-07-17T11:55:28Z"
+      lastUpdateTime: "2025-07-17T11:55:28Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 19
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "0"
+      deployment.kubernetes.io/revision: "2"
+    creationTimestamp: "2025-06-12T16:49:12Z"
+    generation: 6
+    labels:
+      app: adminer
+      pod-template-hash: 658cf8f4bc
+    name: adminer-658cf8f4bc
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: adminer
+      uid: a7a5433c-5ece-4540-9603-70b379621642
+    resourceVersion: "1097569868"
+    uid: bb1b3b59-6363-4eb1-b719-8312f82411ab
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: adminer
+        pod-template-hash: 658cf8f4bc
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: adminer
+          pod-template-hash: 658cf8f4bc
+      spec:
+        containers:
+        - image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/adminer:V01
+          imagePullPolicy: IfNotPresent
+          name: adminer
+          ports:
+          - containerPort: 8081
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 50m
+              memory: 128Mi
+            requests:
+              cpu: 25m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 6
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "0"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2025-06-12T16:46:10Z"
+    generation: 2
+    labels:
+      app: adminer
+      pod-template-hash: 7c4ff44b54
+    name: adminer-7c4ff44b54
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: adminer
+      uid: a7a5433c-5ece-4540-9603-70b379621642
+    resourceVersion: "1096568414"
+    uid: 64bac152-c76a-4276-b550-62040b77f98e
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: adminer
+        pod-template-hash: 7c4ff44b54
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: adminer
+          pod-template-hash: 7c4ff44b54
+      spec:
+        containers:
+        - image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/adminer:V01
+          imagePullPolicy: IfNotPresent
+          name: adminer
+          ports:
+          - containerPort: 8081
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 100m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "0"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2025-06-05T10:31:59Z"
+    generation: 1
+    labels:
+      app: alpine-app
+      pod-template-hash: 797f78b6d6
+    name: alpine-deployment-797f78b6d6
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: alpine-deployment
+      uid: f8d66c3a-289d-4332-9246-cd7173b54609
+    resourceVersion: "1082889462"
+    uid: 01025331-05bb-4b14-86ff-449a11d9a0fc
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: alpine-app
+        pod-template-hash: 797f78b6d6
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: alpine-app
+          pod-template-hash: 797f78b6d6
+      spec:
+        containers:
+        - command:
+          - sleep
+          - "3600"
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/alpine:v01
+          imagePullPolicy: IfNotPresent
+          name: alpine-container
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 1
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "21"
+    creationTimestamp: "2025-06-12T16:08:57Z"
+    generation: 2
+    labels:
+      app: cadete3
+      pod-template-hash: 556ffcbd6f
+    name: cadete-db-556ffcbd6f
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cadete-db
+      uid: 0c5399ee-e0c3-40d0-8420-c76233251b8d
+    resourceVersion: "1096531550"
+    uid: f6a19c80-85fc-4bbf-b78b-442dd139f49a
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: cadete3
+        pod-template-hash: 556ffcbd6f
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2025-06-10T12:56:15+02:00"
+        creationTimestamp: null
+        labels:
+          app: cadete3
+          pod-template-hash: 556ffcbd6f
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V02
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mysql-data
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "24"
+    creationTimestamp: "2025-06-12T16:51:20Z"
+    generation: 10
+    labels:
+      app: cadete3
+      pod-template-hash: 575ccbc7c5
+    name: cadete-db-575ccbc7c5
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cadete-db
+      uid: 0c5399ee-e0c3-40d0-8420-c76233251b8d
+    resourceVersion: "1109044736"
+    uid: 99ab5bb4-92be-478a-97ba-cfe205689717
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: cadete3
+        pod-template-hash: 575ccbc7c5
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2025-06-10T12:56:15+02:00"
+        creationTimestamp: null
+        labels:
+          app: cadete3
+          pod-template-hash: 575ccbc7c5
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V02
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 150m
+              memory: 1Gi
+            requests:
+              cpu: 75m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mysql-data
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+  status:
+    observedGeneration: 10
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "22"
+    creationTimestamp: "2025-06-12T16:17:01Z"
+    generation: 2
+    labels:
+      app: cadete3
+      pod-template-hash: 57f5fdf444
+    name: cadete-db-57f5fdf444
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cadete-db
+      uid: 0c5399ee-e0c3-40d0-8420-c76233251b8d
+    resourceVersion: "1096531681"
+    uid: 551af67b-ed6d-4309-8387-fbc918757158
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: cadete3
+        pod-template-hash: 57f5fdf444
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2025-06-10T12:56:15+02:00"
+        creationTimestamp: null
+        labels:
+          app: cadete3
+          pod-template-hash: 57f5fdf444
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V02
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mysql-data
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "0"
+      deployment.kubernetes.io/revision: "18"
+    creationTimestamp: "2025-06-11T12:50:25Z"
+    generation: 2
+    labels:
+      app: cadete3
+      pod-template-hash: 595cf598c7
+    name: cadete-db-595cf598c7
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cadete-db
+      uid: 0c5399ee-e0c3-40d0-8420-c76233251b8d
+    resourceVersion: "1096045990"
+    uid: 82da634f-594a-4401-9218-13b2522e8eb1
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: cadete3
+        pod-template-hash: 595cf598c7
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2025-06-10T12:56:15+02:00"
+        creationTimestamp: null
+        labels:
+          app: cadete3
+          pod-template-hash: 595cf598c7
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V01
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mysql-data
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "16"
+    creationTimestamp: "2025-06-10T10:41:02Z"
+    generation: 3
+    labels:
+      app: cadete3
+      pod-template-hash: 5f5684fcff
+    name: cadete-db-5f5684fcff
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cadete-db
+      uid: 0c5399ee-e0c3-40d0-8420-c76233251b8d
+    resourceVersion: "1092330121"
+    uid: 0205577f-0c31-4c47-bd81-e316c8ac6b14
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: cadete3
+        pod-template-hash: 5f5684fcff
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2025-06-10T07:59:18+02:00"
+        creationTimestamp: null
+        labels:
+          app: cadete3
+          pod-template-hash: 5f5684fcff
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V05
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mysql-data
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "0"
+      deployment.kubernetes.io/revision: "19"
+    creationTimestamp: "2025-06-12T10:13:12Z"
+    generation: 3
+    labels:
+      app: cadete3
+      pod-template-hash: 66df986bfb
+    name: cadete-db-66df986bfb
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cadete-db
+      uid: 0c5399ee-e0c3-40d0-8420-c76233251b8d
+    resourceVersion: "1096498482"
+    uid: 581032bd-acca-4610-a584-e7660eab9320
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: cadete3
+        pod-template-hash: 66df986bfb
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2025-06-10T12:56:15+02:00"
+        creationTimestamp: null
+        labels:
+          app: cadete3
+          pod-template-hash: 66df986bfb
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V02
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mysql-data
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "0"
+      deployment.kubernetes.io/revision: "23"
+    creationTimestamp: "2025-06-12T16:23:20Z"
+    generation: 5
+    labels:
+      app: cadete3
+      pod-template-hash: 67d566d7b5
+    name: cadete-db-67d566d7b5
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cadete-db
+      uid: 0c5399ee-e0c3-40d0-8420-c76233251b8d
+    resourceVersion: "1098005715"
+    uid: 1326ad6e-2ae7-4000-87ae-0e02173bf2e1
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: cadete3
+        pod-template-hash: 67d566d7b5
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2025-06-10T12:56:15+02:00"
+        creationTimestamp: null
+        labels:
+          app: cadete3
+          pod-template-hash: 67d566d7b5
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V02
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mysql-data
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+  status:
+    observedGeneration: 5
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "20"
+    creationTimestamp: "2025-06-12T16:05:00Z"
+    generation: 5
+    labels:
+      app: cadete3
+      pod-template-hash: 745f496c95
+    name: cadete-db-745f496c95
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cadete-db
+      uid: 0c5399ee-e0c3-40d0-8420-c76233251b8d
+    resourceVersion: "1096512919"
+    uid: 07cec63c-4cb5-4786-9988-c47f7e26269c
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: cadete3
+        pod-template-hash: 745f496c95
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2025-06-10T12:56:15+02:00"
+        creationTimestamp: null
+        labels:
+          app: cadete3
+          pod-template-hash: 745f496c95
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V02
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 250m
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mysql-data
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+  status:
+    observedGeneration: 5
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "25"
+    creationTimestamp: "2025-06-19T07:52:23Z"
+    generation: 6
+    labels:
+      app: cadete3
+      pod-template-hash: 7964695b44
+    name: cadete-db-7964695b44
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cadete-db
+      uid: 0c5399ee-e0c3-40d0-8420-c76233251b8d
+    resourceVersion: "1146903094"
+    uid: b3e8996e-255c-4236-9516-15ab7cb754d9
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: cadete3
+        pod-template-hash: 7964695b44
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2025-06-10T12:56:15+02:00"
+        creationTimestamp: null
+        labels:
+          app: cadete3
+          pod-template-hash: 7964695b44
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V02
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 100m
+              memory: 768Mi
+            requests:
+              cpu: 50m
+              memory: 384Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mysql-data
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+  status:
+    observedGeneration: 6
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "26"
+    creationTimestamp: "2025-07-09T12:03:51Z"
+    generation: 7
+    labels:
+      app: cadete3
+      pod-template-hash: 7d67b44f75
+    name: cadete-db-7d67b44f75
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cadete-db
+      uid: 0c5399ee-e0c3-40d0-8420-c76233251b8d
+    resourceVersion: "1156086087"
+    uid: b6492fa6-391d-4152-8a51-20c86c1c2228
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: cadete3
+        pod-template-hash: 7d67b44f75
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2025-06-10T12:56:15+02:00"
+        creationTimestamp: null
+        labels:
+          app: cadete3
+          pod-template-hash: 7d67b44f75
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V02
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1Gi
+            requests:
+              cpu: 150m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mysql-data
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 7
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "0"
+      deployment.kubernetes.io/revision: "17"
+    creationTimestamp: "2025-06-10T10:56:15Z"
+    generation: 4
+    labels:
+      app: cadete3
+      pod-template-hash: b958bc977
+    name: cadete-db-b958bc977
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cadete-db
+      uid: 0c5399ee-e0c3-40d0-8420-c76233251b8d
+    resourceVersion: "1094365798"
+    uid: 9fa3d048-45ad-4955-85aa-a9fc8c391c8e
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: cadete3
+        pod-template-hash: b958bc977
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2025-06-10T12:56:15+02:00"
+        creationTimestamp: null
+        labels:
+          app: cadete3
+          pod-template-hash: b958bc977
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V05
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mysql-data
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+  status:
+    observedGeneration: 4
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"Deployment","name":"cadete-db"}]'
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "6"
+    creationTimestamp: "2025-07-17T11:54:42Z"
+    generation: 2
+    labels:
+      app: cadetefrt
+      pod-template-hash: 5c6b74dc95
+    name: cadetefrt-5c6b74dc95
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cadetefrt
+      uid: a39156a6-c68e-47d8-b02f-69f80ded28a3
+    resourceVersion: "1161902165"
+    uid: 6ff7f460-9aa2-4961-bf33-9c86531da391
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: cadetefrt
+        pod-template-hash: 5c6b74dc95
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: cadetefrt
+          pod-template-hash: 5c6b74dc95
+      spec:
+        containers:
+        - env:
+          - name: HOST_MACHINE_MYSQL_PORT
+            value: "3306"
+          - name: EXT_ROOT
+            value: /var/www/html/public/ext
+          - name: MYSQL_HOST
+            value: cadete-db
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/cadete:1.0.11
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 60
+          resources:
+            limits:
+              cpu: 50m
+              memory: 1Gi
+            requests:
+              cpu: 50m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/www/html/public/ext
+            name: ext-volume
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: ext-volume
+          persistentVolumeClaim:
+            claimName: web-pvc
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"Deployment","name":"cadete-db"}]'
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "0"
+      deployment.kubernetes.io/revision: "3"
+      deployment.kubernetes.io/revision-history: "1"
+    creationTimestamp: "2025-07-17T10:47:26Z"
+    generation: 7
+    labels:
+      app: cadetefrt
+      pod-template-hash: 5f9698b959
+    name: cadetefrt-5f9698b959
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cadetefrt
+      uid: a39156a6-c68e-47d8-b02f-69f80ded28a3
+    resourceVersion: "1161879674"
+    uid: d91cf587-5f95-4c04-8b2d-026a9cfd210f
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: cadetefrt
+        pod-template-hash: 5f9698b959
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: cadetefrt
+          pod-template-hash: 5f9698b959
+      spec:
+        containers:
+        - env:
+          - name: HOST_MACHINE_MYSQL_PORT
+            value: "3306"
+          - name: EXT_ROOT
+            value: /var/www/html/public/ext
+          - name: MYSQL_HOST
+            value: cadete-db
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/cadete:1.0.11
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 60
+          resources:
+            limits:
+              cpu: 300m
+              memory: 1Gi
+            requests:
+              cpu: 250m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/www/html/public/ext
+            name: ext-volume
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: ext-volume
+          persistentVolumeClaim:
+            claimName: web-pvc
+  status:
+    observedGeneration: 7
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"Deployment","name":"cadete-db"}]'
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "0"
+      deployment.kubernetes.io/revision: "2"
+    creationTimestamp: "2025-07-17T11:20:21Z"
+    generation: 4
+    labels:
+      app: cadetefrt
+      pod-template-hash: 666bddcb89
+    name: cadetefrt-666bddcb89
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cadetefrt
+      uid: a39156a6-c68e-47d8-b02f-69f80ded28a3
+    resourceVersion: "1161859615"
+    uid: d0e03b5c-ccc4-419a-8c3f-e32aa8c3be68
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: cadetefrt
+        pod-template-hash: 666bddcb89
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: cadetefrt
+          pod-template-hash: 666bddcb89
+      spec:
+        containers:
+        - env:
+          - name: HOST_MACHINE_MYSQL_PORT
+            value: "3306"
+          - name: EXT_ROOT
+            value: /var/www/html/public/ext
+          - name: MYSQL_HOST
+            value: cadete-db
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/cadete:1.0.11
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 60
+          resources:
+            limits:
+              cpu: 300m
+              memory: 1Gi
+            requests:
+              cpu: 150m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/www/html/public/ext
+            name: ext-volume
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: ext-volume
+          persistentVolumeClaim:
+            claimName: web-pvc
+  status:
+    observedGeneration: 4
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"Deployment","name":"cadete-db"}]'
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "0"
+      deployment.kubernetes.io/revision: "4"
+    creationTimestamp: "2025-07-17T11:38:34Z"
+    generation: 3
+    labels:
+      app: cadetefrt
+      pod-template-hash: 7858bdf647
+    name: cadetefrt-7858bdf647
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cadetefrt
+      uid: a39156a6-c68e-47d8-b02f-69f80ded28a3
+    resourceVersion: "1161896467"
+    uid: 886b5f98-b25f-4d3a-898c-cc7109cbd09d
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: cadetefrt
+        pod-template-hash: 7858bdf647
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: cadetefrt
+          pod-template-hash: 7858bdf647
+      spec:
+        containers:
+        - env:
+          - name: HOST_MACHINE_MYSQL_PORT
+            value: "3306"
+          - name: EXT_ROOT
+            value: /var/www/html/public/ext
+          - name: MYSQL_HOST
+            value: cadete-db
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/cadete:1.0.11
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 60
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1Gi
+            requests:
+              cpu: 150m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/www/html/public/ext
+            name: ext-volume
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: ext-volume
+          persistentVolumeClaim:
+            claimName: web-pvc
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"Deployment","name":"cadete-db"}]'
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "0"
+      deployment.kubernetes.io/revision: "5"
+    creationTimestamp: "2025-07-17T11:52:21Z"
+    generation: 3
+    labels:
+      app: cadetefrt
+      pod-template-hash: 8b7fcbcd9
+    name: cadetefrt-8b7fcbcd9
+namespace: wcdy-inte-frt
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: cadetefrt
+      uid: a39156a6-c68e-47d8-b02f-69f80ded28a3
+    resourceVersion: "1161900957"
+    uid: 08da64cb-392a-4199-b898-95ab934d22c0
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: cadetefrt
+        pod-template-hash: 8b7fcbcd9
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: cadetefrt
+          pod-template-hash: 8b7fcbcd9
+      spec:
+        containers:
+        - env:
+          - name: HOST_MACHINE_MYSQL_PORT
+            value: "3306"
+          - name: EXT_ROOT
+            value: /var/www/html/public/ext
+          - name: MYSQL_HOST
+            value: cadete-db
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: mysql-secret
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_USER
+                name: mysql-secret
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/cadete:1.0.11
+          imagePullPolicy: IfNotPresent
+          name: container
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 60
+          resources:
+            limits:
+              cpu: 100m
+              memory: 1Gi
+            requests:
+              cpu: 50m
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/www/html/public/ext
+            name: ext-volume
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: ext-volume
+          persistentVolumeClaim:
+            claimName: web-pvc
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      haproxy.router.openshift.io/disable_cookies: "true"
+      haproxy.router.openshift.io/ip_whitelist: 10.159.14.244,10.159.14.245
+      haproxy.router.openshift.io/timeout: 80s
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"route.openshift.io/v1","kind":"Route","metadata":{"annotations":{},"name":"cadete3","namespace":"wcdy-cert-frt"},"spec":{"host":"cadete-wcdy-cert-frt.fi.ocgc4pgpre01.serv.test.dc.es.telefonica","port":{"targetPort":8080},"to":{"kind":"Service","name":"cadete3","weight":100}}}
+      openshift.io/host.generated: "true"
+    creationTimestamp: "2025-06-13T11:43:31Z"
+    labels:
+      app: cadete3
+    name: cadete3
+namespace: wcdy-inte-frt
+    resourceVersion: "1315513716"
+    uid: 57602347-994a-424a-b573-d898d609a166
+  spec:
+    host: cadete-wcdy-inte-frt.fi.ocgc4pgpre01.serv.dev.dc.es.telefonica
+    port:
+      targetPort: 8080
+    to:
+      kind: Service
+      name: cadete3
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: "2025-10-07T10:49:17Z"
+        status: "True"
+        type: Admitted
+      host: cadete-wcdy-inte-frt.fi.ocgc4pgpre01.serv.dev.dc.es.telefonica
+      routerCanonicalHostname: router-router-fi.frontal-intranet.ocgc4pgpre01.mgmt.test.dc.es.telefonica
+      routerName: router-fi
+      wildcardPolicy: None
+    - conditions:
+      - lastTransitionTime: "2025-10-07T10:49:17Z"
+        status: "True"
+        type: Admitted
+      host: cadete-wcdy-inte-frt.fi.ocgc4pgpre01.serv.dev.dc.es.telefonica
+      routerCanonicalHostname: router-default.apps.ocgc4pgpre01.mgmt.test.dc.es.telefonica
+      routerName: default
+      wildcardPolicy: None
+kind: List
+metadata:
+  resourceVersion: ""
+

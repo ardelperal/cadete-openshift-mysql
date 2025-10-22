@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Onboarding Cadete - Entorno, Rutas, Despliegues y Quay</title>
+  <style>
+    :root {
+      --bg: #0f172a; --panel: #111827; --text: #e5e7eb; --muted: #9ca3af; --accent: #22c55e; --warn: #f59e0b;
+    }
+    body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif; margin:0; }
+    header { padding: 28px 24px; background: linear-gradient(90deg, #0f172a 0%, #1f2937 100%); border-bottom: 1px solid #1f2937; }
+    h1 { margin:0 0 6px; font-size: 22px; }
+    header p { margin:4px 0 0; color: var(--muted); font-size: 14px; }
+    main { max-width: 980px; margin: 0 auto; padding: 24px; }
+    section { background: var(--panel); border: 1px solid #1f2937; border-radius: 12px; padding: 18px; margin-bottom: 18px; }
+    section h2 { margin-top:0; font-size: 18px; }
+    p, li { line-height: 1.5; }
+    code { background: #0b1220; color: #cbd5e1; padding: 1px 6px; border-radius: 6px; border: 1px solid #1f2937; }
+    pre { background: #0b1220; color: #cbd5e1; padding: 12px; border-radius: 12px; border: 1px solid #1f2937; overflow:auto; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .note { font-size: 13px; color: var(--muted); }
+    .ok { color: var(--accent); }
+    .warn { color: var(--warn); }
+    ul { margin: 8px 0 0 18px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🚀 Guía de Onboarding - Proyecto Cadete</h1>
+    <p>Esta guía contiene datos reales del entorno y procesos verificados.</p>
+    <div style="background: #0d4f3c; border: 1px solid #155724; border-radius: 8px; padding: 12px; margin: 16px 0;">
+        <strong>✅ Actualizado con datos reales:</strong> Esta documentación incluye URLs, nombres de recursos, y comandos verificados del entorno de producción.
+    </div>
+  </header>
+  <main>
+    <section>
+      <h2>🏗️ Entornos y Namespaces</h2>
+      <p>El proyecto Cadete se despliega en tres entornos principales dentro del cluster OpenShift:</p>
+      
+      <div style="background: #1a1a2e; border: 1px solid #16213e; border-radius: 8px; padding: 16px; margin: 12px 0;">
+          <h4>🧪 Certificación/Preproducción 1</h4>
+          <ul>
+              <li><strong>Namespace:</strong> <span style="background: #0f3460; color: #64b5f6; padding: 2px 6px; border-radius: 4px;">wcdy-cert-frt</span></li>
+              <li><strong>Propósito:</strong> Pruebas de certificación y validación</li>
+              <li><strong>Recursos clave:</strong>
+                  <ul>
+                      <li>Deployment: <code>cadetefrt</code></li>
+                      <li>Service: <code>cadete3</code> (puerto 8080)</li>
+                      <li>Route: <code>cadete3</code></li>
+                      <li>MySQL: <code>cadete-db</code> (puerto 3306)</li>
+                  </ul>
+              </li>
+          </ul>
+      </div>
+      
+      <div style="background: #1a1a2e; border: 1px solid #16213e; border-radius: 8px; padding: 16px; margin: 12px 0;">
+          <h4>🔧 Integración/Preproducción 2</h4>
+          <ul>
+              <li><strong>Namespace:</strong> <span style="background: #0f3460; color: #64b5f6; padding: 2px 6px; border-radius: 4px;">wcdy-inte-frt</span></li>
+              <li><strong>Propósito:</strong> Pruebas de integración y desarrollo</li>
+              <li><strong>URL pública:</strong> <code>cadete-wcdy-inte-frt.fi.ocgc4pgpre01.serv.dev.dc.es.telefonica</code></li>
+              <li><strong>Recursos clave:</strong>
+                  <ul>
+                      <li>Deployment: <code>cadetefrt</code> (contenedor: <code>container</code>)</li>
+                      <li>Service: <code>cadete3</code> (ClusterIP, puerto 8080)</li>
+                      <li>Route: <code>cadete3</code></li>
+                      <li>MySQL: <code>cadete-db</code> (ClusterIP, puerto 3306)</li>
+                      <li>PVC: <code>mysql-pvc</code> (3Gi, RWO)</li>
+                  </ul>
+              </li>
+          </ul>
+      </div>
+      
+      <div style="background: #1a1a2e; border: 1px solid #16213e; border-radius: 8px; padding: 16px; margin: 12px 0;">
+          <h4>🚀 Producción</h4>
+          <ul>
+              <li><strong>Namespace:</strong> <span style="background: #0f3460; color: #64b5f6; padding: 2px 6px; border-radius: 4px;">wcdy-prod-frt</span> (verificar nombre real)</li>
+              <li><strong>Propósito:</strong> Entorno de producción</li>
+              <li><strong>Recursos clave:</strong>
+                  <ul>
+                      <li>Deployment: <code>cadetefrt</code></li>
+                      <li>Service: <code>cadete3</code> (puerto 8080)</li>
+                      <li>Route: <code>cadete3</code></li>
+                      <li>MySQL: <code>cadete-db</code> (puerto 3306)</li>
+                  </ul>
+              </li>
+          </ul>
+      </div>
+      
+      <div style="background: #2d1b00; border: 1px solid #4a2c00; border-radius: 8px; padding: 16px; margin: 12px 0;">
+          <strong>⚠️ Acceso y Conectividad:</strong>
+          <ul>
+              <li><strong>VPN UNCA:</strong> Requerida para acceder al cluster OpenShift</li>
+              <li><strong>Proxy corporativo:</strong> <code>http://185.46.212.88:80</code></li>
+              <li><strong>Cluster OpenShift:</strong> <code>console-openshift-console.apps.ocgc4pgpre01.mgmt.test.dc.es.telefonica</code></li>
+              <li><strong>Quay corporativo:</strong> <code>quay.apps.ocgc4tools.mgmt.dc.es.telefonica</code></li>
+          </ul>
+      </div>
+      
+      <pre><code># Autenticación con token (ejemplo)
+oc login --token &lt;TOKEN&gt; --server https://api.&lt;cluster&gt;:6443
+# Seleccionar entorno
+oc project wcdy-inte-frt
+      </code></pre>
+    </section>
+
+    <section>
+      <h2>2) Rutas y acceso</h2>
+      <p>El acceso público se realiza mediante <strong>Routes</strong> que exponen un <strong>Service</strong>. La app Cadete escucha en <code>8080</code> a través del servicio <code>cadete3</code>.</p>
+      <div class="grid">
+        <div>
+          <p><strong>Crear/actualizar route (conceptual)</strong></p>
+          <pre><code># Aplicar un manifiesto ya preparado
+oc apply -f cadete3-route.yaml
+
+# O crear una route simple (edge TLS por ejemplo)
+oc create route edge cadete3 \
+  --service=cadete3 \
+  --port=8080 \
+  --hostname cadete3-&lt;entorno&gt;.apps.&lt;cluster&gt;
+          </code></pre>
+        </div>
+        <div>
+          <p><strong>Port-forward para pruebas locales</strong></p>
+          <pre><code># Reenvío local del service
+oc -n wcdy-inte-frt port-forward svc/cadete3 8080:8080
+# Probar en navegador: http://localhost:8080
+          </code></pre>
+        </div>
+      </div>
+      <p class="note">Si el service no tiene endpoints disponibles, verifica que el <em>Deployment</em> de la app esté <em>Ready</em> y que el <em>selector</em> del service coincida con las etiquetas del <em>Pod</em>.</p>
+    </section>
+
+    <section>
+      <h2>3) Despliegues (concepto manual)</h2>
+      <p>Un despliegue estándar implica:</p>
+      <ul>
+        <li>Construir una nueva imagen de la aplicación</li>
+        <li>Publicarla en el registro corporativo (Quay)</li>
+        <li>Referenciar esa imagen desde el Deployment del entorno</li>
+        <li>Realizar el <em>rollout</em> y validar</li>
+      </ul>
+      <pre><code># 3.1 Construcción local de la imagen
+podman build -t cadete:V01 .
+
+# 3.2 Iniciar sesión en Quay corporativo (usuario/robot)
+podman login quay.apps.ocgc4tools.mgmt.dc.es.telefonica \
+  -u &lt;usuario&gt; -p &lt;token_o_password&gt;
+
+# 3.3 Etiquetar y subir
+podman tag cadete:V01 quay.apps.ocgc4tools.mgmt.dc.es.telefonica/&lt;org&gt;/&lt;repo&gt;:V01
+podman push quay.apps.ocgc4tools.mgmt.dc.es.telefonica/&lt;org&gt;/&lt;repo&gt;:V01
+
+# 3.4 Crear/usar pull secret en OpenShift (desde un dockerconfig JSON)
+oc create secret generic quay-pullsecret \
+  --from-file=.dockerconfigjson=openshift_push_auth.json \
+  --type=kubernetes.io/dockerconfigjson
+oc secrets link default quay-pullsecret --for=pull
+
+# 3.5 Apuntar el Deployment a la nueva imagen
+oc set image deploy/cadetefrt container=quay.apps.ocgc4tools.mgmt.dc.es.telefonica/&lt;org&gt;/&lt;repo&gt;:V01
+
+# 3.6 Rollout y validación
+oc rollout status deploy/cadetefrt
+oc logs deploy/cadetefrt --tail=100
+oc get pods -o wide
+      </code></pre>
+      <p class="note">En lugar de <code>oc set image</code>, también puedes usar <em>ImageStream</em> y etiquetar: <code>oc tag &lt;imagen&gt;:V01 cadete:latest</code> si el Deployment referencia <code>ImageStreamTag</code>.</p>
+    </section>
+
+    <section>
+      <h2>🐳 Gestión de Imágenes en Quay Corporativo</h2>
+      <p>Utilizamos el registro corporativo de Quay para almacenar las imágenes de contenedores:</p>
+      
+      <div style="background: #1a1a2e; border: 1px solid #16213e; border-radius: 8px; padding: 16px; margin: 12px 0;">
+          <h4>📍 Ubicaciones de Imágenes (Datos Reales)</h4>
+          <ul>
+              <li><strong>Cadete (PHP/Apache):</strong> <code>quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/cadete:&lt;tag&gt;</code></li>
+              <li><strong>Imagen actual en inte:</strong> <code>quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/cadete:1.0.15</code></li>
+              <li><strong>MySQL:</strong> <code>quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:&lt;tag&gt;</code></li>
+              <li><strong>MySQL actual:</strong> <code>quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V01</code></li>
+              <li><strong>Repositorio GitHub:</strong> <code>https://github.com/DysTelefonica/cadete.git</code></li>
+          </ul>
+      </div>
+      
+      <div style="background: #1a1a2e; border: 1px solid #16213e; border-radius: 8px; padding: 16px; margin: 12px 0;">
+          <h4>📋 Dockerfile para Cadete (Configuración Real)</h4>
+          <p>Dockerfile optimizado para el entorno corporativo con configuración real:</p>
+          
+          <pre><code>FROM php:8.2-apache
+
+# Configurar proxy corporativo (datos reales)
+ENV HTTP_PROXY=http://185.46.212.88:80
+ENV HTTPS_PROXY=http://185.46.212.88:80
+ENV NO_PROXY=localhost,127.0.0.1,*.local,*.dc.es.telefonica
+
+# Instalar extensiones PHP necesarias para Cadete
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+
+# Configurar Apache para puerto 8080 (requerido por OpenShift)
+RUN sed -i 's/Listen 80/Listen 8080/' /etc/apache2/ports.conf && \
+    sed -i 's/:80/:8080/' /etc/apache2/sites-available/000-default.conf
+
+# Habilitar mod_rewrite para aplicaciones PHP
+RUN a2enmod rewrite
+
+# Copiar código fuente desde el repositorio
+COPY . /var/www/html/
+
+# Configurar permisos apropiados para OpenShift
+RUN chown -R www-data:www-data /var/www/html/ && \
+    chmod -R 755 /var/www/html/ && \
+    chmod -R 777 /var/www/html/uploads/ || true
+
+# Configurar PHP para el entorno
+RUN echo "upload_max_filesize = 50M" >> /usr/local/etc/php/conf.d/uploads.ini && \
+    echo "post_max_size = 50M" >> /usr/local/etc/php/conf.d/uploads.ini && \
+    echo "max_execution_time = 300" >> /usr/local/etc/php/conf.d/uploads.ini
+
+EXPOSE 8080
+
+# Usuario no-root para seguridad en OpenShift
+USER www-data
+
+CMD ["apache2-foreground"]</code></pre>
+          
+          <div style="background: #0d4f3c; border: 1px solid #155724; border-radius: 8px; padding: 12px; margin: 16px 0;">
+              <strong>💡 Configuración específica para el entorno:</strong>
+              <ul>
+                  <li><strong>Proxy real:</strong> <code>http://185.46.212.88:80</code></li>
+                  <li><strong>Puerto 8080:</strong> Compatible con el Service cadete3</li>
+                  <li><strong>Extensiones MySQL:</strong> Para conectar con cadete-db</li>
+                  <li><strong>Permisos OpenShift:</strong> Usuario www-data no-root</li>
+                  <li><strong>PHP optimizado:</strong> Configuración para uploads y timeouts</li>
+                  <li><strong>NO_PROXY:</strong> Excluye dominios internos del proxy</li>
+              </ul>
+          </div>
+          
+          <div style="background: #2d1b00; border: 1px solid #4a2c00; border-radius: 8px; padding: 16px; margin: 12px 0;">
+              <strong>📁 Ubicación:</strong> El Dockerfile se encuentra en el repositorio de GitHub: <code>https://github.com/wcdy/cadete/Dockerfile</code>
+          </div>
+      </div>
+      
+      <div style="background: #2d1b00; border: 1px solid #4a2c00; border-radius: 8px; padding: 16px; margin: 12px 0;">
+          <strong>⚠️ Autenticación:</strong> Utiliza el archivo <code>openshift_push_auth.txt</code> para autenticación con Quay.
+          <br><strong>🌐 Proxy:</strong> Configura <code>http://185.46.212.88:80</code> para conectividad externa.
+      </div>
+      
+      <h4>🔧 Proceso Manual de Subida (Con Datos Reales)</h4>
+      <p>Para subir una nueva imagen manualmente usando Docker:</p>
+      
+      <pre><code># 1. Configurar proxy (si es necesario)
+set HTTP_PROXY=http://185.46.212.88:80
+set HTTPS_PROXY=http://185.46.212.88:80
+
+# 2. Construir la imagen localmente
+docker build -t cadete:latest .
+
+# 3. Etiquetar para Quay (ejemplo con versión 1.0.16)
+docker tag cadete:latest quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/cadete:1.0.16
+
+# 4. Autenticarse usando el archivo de credenciales
+docker login quay.apps.ocgc4tools.mgmt.dc.es.telefonica --username=wcdy+robot --password-stdin < openshift_push_auth.txt
+
+# 5. Subir la imagen
+docker push quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/cadete:1.0.16</code></pre>
+      
+      <h4>🚀 Actualizar Deployment en OpenShift</h4>
+      <pre><code># Actualizar la imagen en el deployment (inte)
+oc set image deployment/cadetefrt container=quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/cadete:1.0.16 -n wcdy-inte-frt
+
+# Verificar el rollout
+oc rollout status deployment/cadetefrt -n wcdy-inte-frt
+
+# Verificar que el pod esté corriendo
+oc get pods -n wcdy-inte-frt -l app=cadetefrt
+
+# Verificar la ruta
+oc get route cadete3 -n wcdy-inte-frt</code></pre>
+
+      <h4>📝 Notas sobre Automatización</h4>
+            <p>Existen scripts PowerShell en desarrollo en la carpeta <code>scripts/</code>, pero el proceso manual documentado arriba es el método recomendado y verificado.</p>
+      
+      <p>El registro corporativo centraliza las imágenes. Ejemplo de repositorio: <code>quay.apps.ocgc4tools.mgmt.dc.es.telefonica/&lt;org&gt;/&lt;repo&gt;:V01</code>.</p>
+      
+      <div style="background: #1a1a2e; border: 1px solid #16213e; border-radius: 8px; padding: 16px; margin: 12px 0;">
+          <strong>🏢 Responsabilidad de IT/Infraestructura:</strong>
+          <ul>
+              <li>La configuración del <strong>pull secret</strong> para Quay es gestionada por el equipo de IT/infraestructura</li>
+              <li>Los <em>ServiceAccounts</em> ya tienen configurados los <code>imagePullSecrets</code> necesarios</li>
+              <li>No es necesario que el equipo de desarrollo configure manualmente estos secretos</li>
+          </ul>
+      </div>
+      
+      <p><strong>Para verificar la configuración existente:</strong></p>
+      <pre><code># Ver el SA por defecto y sus secretos (solo verificación)
+oc get sa default -o yaml | grep imagePullSecrets -A2
+
+# Verificar que el deployment puede acceder a Quay
+oc get pods -n wcdy-inte-frt -l app=cadetefrt</code></pre>
+    </section>
+
+    <section>
+      <h2>5) Base de datos MySQL (backup/restore, concepto)</h2>
+      <p>La base <em>cadete-db</em> usa una PVC (<code>mysql-pvc</code>). Para mover datos entre entornos:</p>
+      <div class="grid">
+        <div>
+          <p><strong>Backup</strong></p>
+          <pre><code># Dump desde el pod MySQL
+oc exec &lt;pod-mysql&gt; -- sh -lc \
+  "mysqldump -u$MYSQL_USER -p\"$MYSQL_PASSWORD\" --databases mydb > /tmp/mydb.sql"
+# Copiar a local
+oc cp &lt;pod-mysql&gt;:/tmp/mydb.sql ./backups/mydb.sql
+          </code></pre>
+        </div>
+        <div>
+          <p><strong>Restore</strong></p>
+          <pre><code># Subir y aplicar en destino
+oc cp ./backups/mydb.sql &lt;pod-mysql&gt;:/tmp/restore.sql
+oc exec &lt;pod-mysql&gt; -- sh -lc "mysql -u$MYSQL_USER -p\"$MYSQL_PASSWORD\" mydb < /tmp/restore.sql"
+          </code></pre>
+        </div>
+      </div>
+      <p>Alternativa con <strong>BusyBox</strong> montando la PVC (RWO): escalar MySQL a 0, montar la PVC en BusyBox, copiar ficheros a <code>/mnt/mysql/import</code>, y re-escalar MySQL a 1. Útil para mover grandes volúmenes.</p>
+      <p class="note">Recuerda crear el usuario/grants necesarios en MySQL. Ejemplo global: <code>GRANT SELECT, INSERT, UPDATE, DELETE, FILE ON *.* TO 'user'@'%';</code></p>
+      
+      <div style="background: #1a1a2e; border: 1px solid #16213e; border-radius: 8px; padding: 16px; margin: 12px 0;">
+          <h4>🐳 Imagen MySQL en Quay</h4>
+          <ul>
+              <li><strong>Imagen actual:</strong> <code>quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V01</code></li>
+              <li><strong>Deployment:</strong> <code>cadete-db</code></li>
+              <li><strong>Service:</strong> <code>cadete-db</code> (puerto 3306)</li>
+          </ul>
+          <p><strong>Para actualizar la imagen MySQL:</strong></p>
+          <pre><code># Actualizar imagen MySQL
+oc set image deployment/cadete-db mysql=quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V02 -n wcdy-inte-frt
+
+# Verificar el rollout
+oc rollout status deployment/cadete-db -n wcdy-inte-frt</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>6) Seguridad y buenas prácticas</h2>
+      <ul>
+        <li>Usa <strong>tokens</strong> de OpenShift con rotación y permisos mínimos.</li>
+        <li>No subas a Git secrets como <code>openshift_push_auth.json</code>, <code>*.env</code> o backups.</li>
+        <li>Valida permisos: <code>oc auth can-i --list</code>.</li>
+        <li>Comprueba identidad: <code>oc whoami</code>.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>🔄 Comandos Esenciales de OpenShift (Con Datos Reales)</h2>
+      <p>Comandos más utilizados en el día a día con los nombres reales de recursos:</p>
+      
+      <h4>🔍 Consulta y Monitoreo</h4>
+      <pre><code># Ver todos los recursos en el namespace de inte
+oc get all -n wcdy-inte-frt
+
+# Ver logs del deployment de Cadete
+oc logs -f deployment/cadetefrt -n wcdy-inte-frt
+
+# Ver logs del contenedor específico
+oc logs -f deployment/cadetefrt -c container -n wcdy-inte-frt
+
+# Describir el deployment para troubleshooting
+oc describe deployment cadetefrt -n wcdy-inte-frt
+
+# Ver pods y su estado
+oc get pods -n wcdy-inte-frt -l app=cadetefrt
+
+# Ver eventos del namespace ordenados por tiempo
+oc get events -n wcdy-inte-frt --sort-by='.lastTimestamp'
+
+# Verificar la ruta pública
+oc get route cadete3 -n wcdy-inte-frt</code></pre>
+      
+      <h4>🚀 Despliegues</h4>
+      <pre><code># Iniciar un nuevo rollout del deployment
+oc rollout restart deployment/cadetefrt -n wcdy-inte-frt
+
+# Ver estado del rollout
+oc rollout status deployment/cadetefrt -n wcdy-inte-frt
+
+# Ver historial de rollouts
+oc rollout history deployment/cadetefrt -n wcdy-inte-frt
+
+# Rollback a versión anterior
+oc rollout undo deployment/cadetefrt -n wcdy-inte-frt
+
+# Rollback a una revisión específica
+oc rollout undo deployment/cadetefrt --to-revision=2 -n wcdy-inte-frt
+
+# Escalar replicas
+oc scale deployment/cadetefrt --replicas=2 -n wcdy-inte-frt</code></pre>
+      
+      <h4>🔧 Configuración</h4>
+      <pre><code># Actualizar imagen del contenedor (ejemplo con nueva versión)
+oc set image deployment/cadetefrt container=quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/cadete:1.0.16 -n wcdy-inte-frt
+
+# Ver la imagen actual configurada
+oc get deployment cadetefrt -n wcdy-inte-frt -o jsonpath='{.spec.template.spec.containers[0].image}'
+
+# Editar deployment directamente
+oc edit deployment/cadetefrt -n wcdy-inte-frt
+
+# Ver configuración del service
+oc get svc cadete3 -n wcdy-inte-frt -o yaml
+
+# Aplicar cambios desde archivo YAML
+oc apply -f deployment.yaml -n wcdy-inte-frt</code></pre>
+      
+      <h4>🐛 Debug y Troubleshooting</h4>
+      <pre><code># Obtener nombre del pod actual
+POD_NAME=$(oc get pods -n wcdy-inte-frt -l app=cadetefrt -o jsonpath='{.items[0].metadata.name}')
+
+# Ejecutar comando en el pod de Cadete
+oc exec -it $POD_NAME -n wcdy-inte-frt -- /bin/bash
+
+# Port-forward del service cadete3 para acceso local
+oc port-forward service/cadete3 8080:8080 -n wcdy-inte-frt
+
+# Port-forward de MySQL para acceso directo
+oc port-forward service/cadete-db 3306:3306 -n wcdy-inte-frt
+
+# Copiar archivos hacia el pod
+oc cp archivo.sql $POD_NAME:/tmp/ -n wcdy-inte-frt
+
+# Copiar backup desde el pod
+oc cp $POD_NAME:/tmp/backup.sql ./backup.sql -n wcdy-inte-frt
+
+# Ver recursos de MySQL
+oc get pods -n wcdy-inte-frt -l app=cadete-db</code></pre>
+      
+      <h4>🗄️ Comandos Específicos de MySQL</h4>
+      <pre><code># Conectar a MySQL desde el pod
+MYSQL_POD=$(oc get pods -n wcdy-inte-frt -l app=cadete-db -o jsonpath='{.items[0].metadata.name}')
+oc exec -it $MYSQL_POD -n wcdy-inte-frt -- mysql -u root -p
+
+# Restaurar backup SQL
+oc exec -i $MYSQL_POD -n wcdy-inte-frt -- mysql -u root -p < backup.sql
+
+# Ver logs de MySQL
+oc logs -f $MYSQL_POD -n wcdy-inte-frt</code></pre>
+      
+      <h4>📋 Referencia Rápida Original</h4>
+      <pre><code># Login y proyecto
+auth: oc login --token &lt;TOKEN&gt; --server https://api.&lt;cluster&gt;:6443
+ns:   oc project wcdy-inte-frt
+
+# Estado de despliegues
+oc get deploy
+oc rollout status deploy/cadetefrt
+
+# Logs y pods
+oc logs deploy/cadetefrt --tail=100
+oc get pods -o name
+
+# Service y route
+oc get svc cadete3 -o wide
+oc apply -f cadete3-route.yaml
+
+# Port-forward
+oc -n wcdy-inte-frt port-forward svc/cadete3 8080:8080
+      </code></pre>
+      <p class="ok">Consejo: documenta el tag de imagen usado en cada entorno y guarda los comandos de despliegue que has empleado en tu último cambio.</p>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,214 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+  namespace: wcdy-inte-frt
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+  storageClassName: apps-csi
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: web-pvc
+  namespace: wcdy-inte-frt
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 6Gi
+  storageClassName: apps-csi
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+  namespace: wcdy-inte-frt
+type: Opaque
+data:
+  MYSQL_DATABASE: Y2FkZXRlLWRi
+  MYSQL_PASSWORD: b25EcG9Qc21lTmVwSVQxMjM=
+  MYSQL_ROOT_PASSWORD: MFRmMDYxNzE=
+  MYSQL_USER: dXNlcg==
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cadete-db
+  namespace: wcdy-inte-frt
+spec:
+  ports:
+    - name: mysql
+      port: 3306
+      protocol: TCP
+      targetPort: 3306
+  selector:
+    app: cadete3
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cadete3
+  namespace: wcdy-inte-frt
+  labels:
+    app: cadetefrt
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: cadetefrt
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cadete-db
+  namespace: wcdy-inte-frt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cadete3
+  template:
+    metadata:
+      labels:
+        app: cadete3
+    spec:
+      imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+      containers:
+        - name: container
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/mysql:V01
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3306
+              protocol: TCP
+          env:
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_USER
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_ROOT_PASSWORD
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1Gi
+            requests:
+              cpu: 150m
+              memory: 512Mi
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cadetefrt
+  namespace: wcdy-inte-frt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cadetefrt
+  template:
+    metadata:
+      labels:
+        app: cadetefrt
+    spec:
+      imagePullSecrets:
+        - name: quay-wcdy-pullsecret
+      containers:
+        - name: container
+          image: quay.apps.ocgc4tools.mgmt.dc.es.telefonica/wcdy/cadete:1.0.11
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: HOST_MACHINE_MYSQL_PORT
+              value: "3306"
+            - name: EXT_ROOT
+              value: /var/www/html/public/ext
+            - name: MYSQL_HOST
+              value: cadete-db
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_USER
+          readinessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 60
+          resources:
+            limits:
+              cpu: 50m
+              memory: 1Gi
+            requests:
+              cpu: 50m
+              memory: 512Mi
+          volumeMounts:
+            - name: ext-volume
+              mountPath: /var/www/html/public/ext
+      volumes:
+        - name: ext-volume
+          persistentVolumeClaim:
+            claimName: web-pvc
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: cadete3
+  namespace: wcdy-inte-frt
+  labels:
+    app: cadete3
+spec:
+  host: cadete-wcdy-cert-frt.fi.ocgc4pgpre01.serv.dev.dc.es.telefonica
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: cadete3
+    weight: 100
+  wildcardPolicy: None
