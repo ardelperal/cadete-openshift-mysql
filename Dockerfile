@@ -35,6 +35,13 @@ RUN set -eux; \
     # Cambiar Apache del puerto 80 al 8080 para alinear con Service OpenShift
     sed -ri 's/Listen 80/Listen 8080/g' /etc/apache2/ports.conf; \
     sed -ri 's/:80/:8080/g' /etc/apache2/sites-available/000-default.conf; \
+    # Ajustar ServerName y ServerAlias al dominio indicado
+    sed -ri 's#^\\s*ServerName.*#    ServerName cadete.dev.es.telefonica#g' /etc/apache2/sites-available/000-default.conf; \
+    if grep -qE '^\\s*ServerAlias ' /etc/apache2/sites-available/000-default.conf; then \
+        sed -ri 's#^\\s*ServerAlias.*#    ServerAlias cadete.dev.es.telefonica#g' /etc/apache2/sites-available/000-default.conf; \
+    else \
+        sed -ri '/ServerName cadete.dev.es.telefonica/a\\    ServerAlias cadete.dev.es.telefonica' /etc/apache2/sites-available/000-default.conf; \
+    fi; \
     # Limpiar cache apt
     rm -rf /var/lib/apt/lists/*
 
