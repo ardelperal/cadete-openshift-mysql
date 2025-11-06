@@ -1,0 +1,16 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: cadete
+  namespace: wcdy-cert-frt
+  labels:
+    app: cadetefrt
+spec:
+  host: cadete.test.es.telefonica
+  to:
+    kind: Service
+    name: cadete3
+    weight: 100
+  port:
+    targetPort: 8080
+  wildcardPolicy: None

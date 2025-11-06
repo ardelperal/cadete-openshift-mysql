@@ -1,0 +1,68 @@
+version: "3"
+
+services:
+  webserver:
+    build:
+      context: ./
+      dockerfile: Dockerfile-webserver
+    container_name: "cadete-webserver"
+    restart: "always"
+    ports:
+      - "8080:80"
+      
+    links:
+      - database
+    volumes:
+
+      #Este es el volumen donde se encuentra toda la documentación externa
+      - ./ext:/var/www/html/public/ext/:rw
+
+      #Esto lo pongo en volumen para poder hacer modificaciones en vivo, pero iría fuera
+      - ./www:/var/www/html:rw
+          
+    environment:
+      APACHE_DOCUMENT_ROOT: /var/www/html
+      PMA_PORT: 8080
+      MYSQL_DATABASE: cadete-database
+      MYSQL_ROOT_PASSWORD: 0Tf06171
+      MYSQL_USER: user
+      MYSQL_PASSWORD: onDpoPsmeNepIT123
+      HOST_MACHINE_MYSQL_PORT: 3306
+      EXT_ROOT: ./ext
+      USERS_ROOT: ./ext/users
+      ADJ_ROOT: ./ext/adj
+      COM_ROOT: ./ext/com
+
+  database:
+    image: mysql:8.1
+    container_name: "cadete-database"
+    restart: "always"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 0Tf06171
+      MYSQL_USER: user
+      MYSQL_PASSWORD: onDpoPsmeNepIT123
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: "cadete-phpmyadmin"
+    links:
+      - database
+    environment:
+      PMA_HOST: database
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: 0Tf06171
+      MYSQL_USER: user
+      MYSQL_PASSWORD: onDpoPsmeNepIT123
+    ports:
+      - "8081:80"
+      
+    volumes:
+      - /sessions
+      - ./config/php/php.ini:/usr/local/etc/php/conf.d/php-phpmyadmin.ini
+
+volumes:
+  mysql-data:
