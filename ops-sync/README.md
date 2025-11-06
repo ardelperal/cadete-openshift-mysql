@@ -4,29 +4,25 @@ Este directorio contiene herramientas para sincronizar datos y ficheros entre en
 
 ## export-from-docker-mysql.ps1
 
-Script para ejecutar en el host Docker (producción) que exporta la base de datos `user` del contenedor MySQL (por defecto, sin menú) y añade las sentencias necesarias para recrear el usuario de aplicación y sus permisos.
+Script para ejecutar en el host Docker (producción) que exporta TODAS las bases no-sistema del contenedor MySQL y añade las sentencias necesarias para recrear el usuario de aplicación `user` y sus permisos.
 
 - Entrada:
-  - `-ContainerName` (opcional): nombre del contenedor MySQL. Si se omite, se detecta automáticamente.
-  - `-DatabaseName` (opcional): si se indica, exporta esa base. Si no se indica, exporta automáticamente la base `user` sin mostrar ningún menú.
-  - `-AppUser` (opcional): usuario de aplicación. Por defecto se toma de `MYSQL_USER` del contenedor; si no existe, se usa `user`.
-  - `-AppPassword` (opcional): contraseña del usuario de aplicación. Por defecto se toma de `MYSQL_PASSWORD` del contenedor; si no existe, se solicitará por consola.
-  - `-OutPath` (opcional): ruta del fichero SQL resultante. Por defecto `ops-sync/backups/docker-prod-export-<timestamp>.sql`.
+  - `-ContainerName` (opcional): nombre del contenedor MySQL. Si se omite, se detecta automáticamente el primer contenedor MySQL en ejecución.
+  - `-RootPassword` (obligatorio): contraseña de `root` del MySQL del contenedor.
 
 - Comportamiento:
-  - Pide la contraseña de `root` de MySQL del contenedor.
-  - Excluye bases de sistema (`information_schema`, `performance_schema`, `mysql`, `sys`).
-  - Por defecto exporta `user`; si no existe o es sistema, aborta con error. También permite exportar otra base pasando `-DatabaseName`.
+  - Detecta el contenedor si no se indica `-ContainerName`.
+  - Lista y exporta todas las bases que no sean de sistema (`information_schema`, `performance_schema`, `mysql`, `sys`).
   - Genera el volcado con `mysqldump` (opciones: `--single-transaction --quick --routines --triggers --events`).
-  - Añade al final del dump: `CREATE USER IF NOT EXISTS 'user'@'%' IDENTIFIED BY '<pwd>'; GRANT ...; FLUSH PRIVILEGES;` usando `-AppUser`/`-AppPassword` o los valores detectados.
+  - Añade al final del dump: `CREATE USER IF NOT EXISTS 'user'@'%' IDENTIFIED BY '<pwd>'; GRANT ...; FLUSH PRIVILEGES;`.
+    - La contraseña se obtiene de `MYSQL_PASSWORD` del contenedor; si no existe, se usa `user`.
+  - El fichero `.sql` se genera automáticamente en el mismo directorio del script (`ops-sync/docker-export-<timestamp>.sql`).
 
 - Ejemplos:
-  - Exportar la base `user` (sin menú):
-    `powershell -ExecutionPolicy Bypass -File ops-sync/export-from-docker-mysql.ps1`
-  - Exportar solo la base `user` indicando contenedor y credenciales:
-    `powershell -ExecutionPolicy Bypass -File ops-sync/export-from-docker-mysql.ps1 -ContainerName mysql-prod -DatabaseName user -AppUser user -AppPassword <pwd>`
-  - Exportar otra base específica:
-    `powershell -ExecutionPolicy Bypass -File ops-sync/export-from-docker-mysql.ps1 -DatabaseName cadete_db`
+  - Exportar desde contenedor detectado automáticamente:
+    `powershell -ExecutionPolicy Bypass -File ops-sync/export-from-docker-mysql.ps1 -RootPassword <rootpwd>`
+  - Exportar indicando nombre del contenedor:
+    `powershell -ExecutionPolicy Bypass -File ops-sync/export-from-docker-mysql.ps1 -ContainerName cadete-database -RootPassword <rootpwd>`
 
 El resultado (`.sql`) puede consumirse directamente con el script de sincronización.
 
@@ -48,7 +44,7 @@ Script para sincronizar archivos `ext` y datos MySQL hacia OpenShift (INTE/CERT)
 
 - Ejemplos:
   - Usando un `.sql` exportado desde Docker:
-    `powershell -ExecutionPolicy Bypass -File ops-sync/sync-to-openshift.ps1 -Env inte -SqlPath ops-sync/backups/docker-prod-export-20250101.sql`
+    `powershell -ExecutionPolicy Bypass -File ops-sync/sync-to-openshift.ps1 -Env inte -SqlPath ops-sync/docker-export-20250101.sql`
   - Exportando desde origen MySQL (sin `-SqlPath`):
     `powershell -ExecutionPolicy Bypass -File ops-sync/sync-to-openshift.ps1 -Env cert -SourceMySqlHost 10.0.0.5 -SourceMySqlPort 3306 -SourceMySqlUser root -SourceMySqlPassword <pwd> -SourceMySqlDatabase user`
 
