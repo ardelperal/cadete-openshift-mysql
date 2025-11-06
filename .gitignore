@@ -6,3 +6,7 @@ openshift_push_auth.json
 
 # Backups y artefactos
 backups/
+
+# Excluir SQL exportados por ops-sync
+ops-sync/*.sql
+ops-sync/*.sql.gz

@@ -1,9 +1,6 @@
 param(
     [string]$ContainerName,
-    [string]$DatabaseName,
-    [string]$AppUser,
-    [string]$AppPassword,
-    [string]$OutPath
+    [string]$RootPassword
 )
 
 $ErrorActionPreference = 'Stop'
@@ -42,54 +39,35 @@ function Get-ContainerEnv($container) {
 }
 
 function Get-NonSystemDatabases($container, $rootPwd) {
-    $cmd = "mysql -u root -p'$rootPwd' -e \"SHOW DATABASES;\" | tail -n +2"
+    $cmd = "mysql -u root -p'$rootPwd' -e 'SHOW DATABASES;' | tail -n +2"
     $out = & docker exec $container sh -lc $cmd
     $system = @('information_schema','performance_schema','mysql','sys')
     return $out | Where-Object { $system -notcontains $_ }
 }
 
-function Ensure-OutputPath([string]$path) {
-    if (-not $path) {
-        $ts = Get-Date -Format "yyyyMMddHHmmss"
-        $defaultDir = Join-Path (Split-Path $PSScriptRoot -Parent) 'backups'
-        if (-not (Test-Path $defaultDir)) { New-Item -ItemType Directory -Path $defaultDir | Out-Null }
-        $path = Join-Path $defaultDir ("docker-prod-export-$ts.sql")
-    } else {
-        $dir = Split-Path $path -Parent
-        if ($dir -and -not (Test-Path $dir)) { New-Item -ItemType Directory -Path $dir | Out-Null }
-    }
-    return $path
+function Get-OutputPath() {
+    $ts = Get-Date -Format "yyyyMMddHHmmss"
+    return (Join-Path $PSScriptRoot ("docker-export-$ts.sql"))
 }
 
 # --- Main ---
 Ensure-Command 'docker'
 
+if (-not $RootPassword) { throw "Debe proporcionar -RootPassword" }
+
 $container = Detect-MySqlContainer -preferred $ContainerName
 Write-Ok "Contenedor MySQL: $container"
 
-$secureRoot = Read-Host -AsSecureString -Prompt "Introduce la contraseña de root MySQL (no se guarda)"
-$rootPwd = (New-Object System.Net.NetworkCredential('', $secureRoot)).Password
-
 $env = Get-ContainerEnv $container
-if (-not $AppUser) { $AppUser = $env['MYSQL_USER']; if (-not $AppUser) { $AppUser = 'user'; Write-Warn "MYSQL_USER no encontrado; usando 'user'" } }
-if (-not $AppPassword) { $AppPassword = $env['MYSQL_PASSWORD']; if (-not $AppPassword) { Write-Warn "MYSQL_PASSWORD no encontrado; se solicitará"; $AppPassword = Read-Host -Prompt "Introduce la contraseña del usuario de aplicación ($AppUser)" } }
+$AppUser = 'user'
+$AppPassword = $env['MYSQL_PASSWORD']
+if (-not $AppPassword) { Write-Warn "MYSQL_PASSWORD no encontrado en el contenedor; se usará 'user' como contraseña"; $AppPassword = 'user' }
 
-# Sin menú: por defecto exporta la base 'user' si no se pasa -DatabaseName
-$databasesToExport = @()
-if ($DatabaseName) {
-    $databasesToExport = @($DatabaseName)
-} else {
-    $databasesToExport = @('user')
-}
-
-# Validar que existen y no son sistema
-$availableNonSystem = Get-NonSystemDatabases -container $container -rootPwd $rootPwd
-foreach ($db in $databasesToExport) {
-    if ($availableNonSystem -notcontains $db) { throw "La base '$db' no existe o es una base de sistema" }
-}
+$databasesToExport = Get-NonSystemDatabases -container $container -rootPwd $RootPassword
+if (-not $databasesToExport -or $databasesToExport.Count -eq 0) { throw "No se encontraron bases no-sistema para exportar" }
 Write-Info "Bases a exportar: $($databasesToExport -join ', ')"
 
-$OutPath = Ensure-OutputPath $OutPath
+$OutPath = Get-OutputPath
 Write-Info "Exportando bases '$($databasesToExport -join ', ')' del contenedor $container"
 
 # Inicializar fichero de volcado dentro del contenedor
@@ -97,18 +75,18 @@ Write-Info "Exportando bases '$($databasesToExport -join ', ')' del contenedor $
 
 # Volcar cada base y anexar al fichero
 foreach ($db in $databasesToExport) {
-    $cmd = "mysqldump -u root -p'$rootPwd' '$db' --single-transaction --quick --routines --triggers --events >> /tmp/export.sql"
+    $cmd = "mysqldump -u root -p'$RootPassword' '$db' --single-transaction --quick --routines --triggers --events >> /tmp/export.sql"
     & docker exec $container sh -lc $cmd
 }
 
-# Añadir usuario y GRANTs al final
+# Añadir usuario y GRANTs al final (usuario fijo 'user')
 $grants = @(
-    "printf '%s\\n' \"SET sql_log_bin=0;\" \"CREATE USER IF NOT EXISTS '$AppUser'@'%' IDENTIFIED BY '$AppPassword';\" \"GRANT SELECT, INSERT, UPDATE, DELETE, FILE ON *.* TO '$AppUser'@'%';\" \"FLUSH PRIVILEGES;\" >> /tmp/export.sql"
+    "printf '%s\\n' `"SET sql_log_bin=0;`" `"CREATE USER IF NOT EXISTS '$AppUser'@'%' IDENTIFIED BY '$AppPassword';`" `"GRANT SELECT, INSERT, UPDATE, DELETE, FILE ON *.* TO '$AppUser'@'%';`" `"FLUSH PRIVILEGES;`" >> /tmp/export.sql"
 )
 & docker exec $container sh -lc ($grants -join ' && ')
 
 # Copiar al host y limpiar
-& docker cp "$container:/tmp/export.sql" "$OutPath"
+& docker cp "${container}:/tmp/export.sql" "$OutPath"
 & docker exec $container sh -lc "rm -f /tmp/export.sql"
 
 Write-Ok "Volcado generado: $OutPath"
